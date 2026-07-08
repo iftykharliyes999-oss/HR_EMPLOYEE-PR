@@ -21,29 +21,32 @@
 	<link href="{{asset('')}}https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet">
 	<link href="{{asset('')}}assets/css/app.css" rel="stylesheet">
 	<link href="{{asset('')}}assets/css/icons.css" rel="stylesheet">
-	
+
 	<title>HRMS - Admin Dashboard</title>
 </head>
 
 <body class="bg-theme bg-theme2">
 	<!--wrapper-->
 	<div class="wrapper">
-		<!--start header wrapper-->	
-	  <div class="header-wrapper">
-		<!--start header -->
-		
-                @include('admin.parts.header')
+		<!--start header wrapper-->
+<div class="header-wrapper">
 
-		<!--end header -->
-		<!--navigation-->
-		  @include('admin.parts.navbar')
-		<!--end navigation-->
-	   </div>
-	   <!--end header wrapper-->
-		<!--start page wrapper -->
-	@yield('content')
-		<!--end page wrapper -->
-		
+    @include('admin.parts.header')
+
+    @include('admin.parts.navbar')
+
+</div>
+<!--end header wrapper-->
+
+
+<!--start page wrapper -->
+<div class="page-wrapper">
+
+    @yield('content')
+
+</div>
+<!--end page wrapper -->
+
 		<!--Start Back To Top Button--> <a href="{{asset('')}}javaScript:;" class="back-to-top"><i class='bx bxs-up-arrow-alt'></i></a>
 		<!--End Back To Top Button-->
 		@include('admin.parts.footer')

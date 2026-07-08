@@ -22,8 +22,13 @@
 								<div class="ms-auto dropy-icon"><i class='bx bx-chevron-down'></i></div>
 							</a>
 							<ul class="dropdown-menu">
-								  <li><a class="dropdown-item" href="{{asset('')}}index.html"><i class='bx bx-pie-chart-alt'></i>Default</a></li>
-								  <li><a class="dropdown-item" href="{{asset('')}}dashboard-eCommerce.html"><i class='bx bx-cart-alt'></i>eCommerce</a></li>
+								  <li><a class="dropdown-item" href="{{ route('admin.dashboard') }}"><i class='bx bx-pie-chart-alt'></i>Default</a></li>
+								  <li>
+    <a class="dropdown-item" href="{{ route('admin.managers.index') }}">
+        <i class='bx bx-user-plus'></i>
+        All Manager
+    </a>
+</li>
 								  <li><a class="dropdown-item" href="{{asset('')}}dashboard-sales.html"><i class='bx bx-basket'></i>Sales</a></li>
 								  <li><a class="dropdown-item" href="{{asset('')}}dashboard-analytics.html"><i class='bx bx-line-chart-down'></i>Analytics</a></li>
 								  <li><a class="dropdown-item" href="{{asset('')}}dashboard-alternate.html"><i class='bx bx-shield-alt-2'></i>Alternate</a></li>
