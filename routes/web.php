@@ -3,6 +3,7 @@
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
+use App\Http\Controllers\Admin\EmployeeController;
 use App\Http\Controllers\Admin\ManagerController;
 use App\Http\Controllers\Manager\DashboardController as ManagerDashboardController;
 use App\Http\Controllers\Employee\DashboardController as EmployeeDashboardController;
@@ -32,6 +33,14 @@ Route::middleware(['auth', 'role:Super Admin'])->group(function () {
 
     Route::resource('/admin/managers', ManagerController::class)
         ->names('admin.managers');
+
+
+    Route::resource('/admin/employees', EmployeeController::class)
+    ->names('admin.employees'); 
+    
+    Route::get('/admin/employees/{id}/status/{status}',
+[EmployeeController::class,'status'])
+->name('admin.employees.status');
 
 });
 Route::middleware(['auth', 'role:Manager'])->group(function () {
