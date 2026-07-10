@@ -11,7 +11,7 @@
                     <div class="d-flex align-items-center">
 
                         <div>
-                            <h4 class="mb-1">Welcome Back, Adrian 👋</h4>
+                            <h4 class="mb-1">Welcome Back,Welcome Back, {{ auth()->user()->name }}</h4>
                             <p class="mb-0">
                                 You have <b>21</b> Pending Approvals &
                                 <b>14</b> Leave Requests
@@ -42,7 +42,9 @@
 
                                 <div>
                                     <p class="mb-1">Attendance Overview</p>
-                                    <h4 class="mb-0">120/154</h4>
+                                    <h4 class="mb-0">
+                                        {{ $totalEmployee }}
+                                    </h4>
                                 </div>
 
                                 <div class="ms-auto fs-2">
@@ -100,8 +102,13 @@
                             <div class="d-flex align-items-center">
 
                                 <div>
-                                    <p class="mb-1">Total No of Clients</p>
-                                    <h4 class="mb-0">69/86</h4>
+                                    <p class="mb-1">
+                                        Total Managers
+                                    </p>
+
+                                    <h4 class="mb-0">
+                                        {{ $totalManager }}
+                                    </h4>
                                 </div>
 
                                 <div class="ms-auto fs-2">
@@ -589,170 +596,171 @@
 
     <!-- Clock In / Out -->
 
+   <!-- Clock In / Out -->
+
 <div class="row">
 
 
 <div class="col-xl-6">
 
+
 <div class="card radius-10">
+
 
 <div class="card-body">
 
-<div class="d-flex align-items-center mb-3">
-<h5 class="mb-0">
+
+<h5 class="mb-3">
 Clock-In / Out
 </h5>
-</div>
+
 
 
 <ul class="list-group list-group-flush">
 
 
-<li class="list-group-item bg-transparent">
-<div class="d-flex align-items-center">
 
-<img src="{{asset('')}}assets/images/avatars/avatar-2.png"
-class="rounded-circle"
-width="45"
-height="45">
-
-
-<div class="ms-3">
-
-<h6 class="mb-0">
-Daniel Esbella
-</h6>
-
-<small>
-UI/UX Designer
-</small>
-
-</div>
-
-
-<div class="ms-auto">
-09:15
-</div>
-
-
-</div>
-</li>
-
+@foreach($todayAttendance as $attendance)
 
 
 <li class="list-group-item bg-transparent">
 
+
 <div class="d-flex align-items-center">
 
-<img src="{{asset('')}}assets/images/avatars/avatar-3.png"
-class="rounded-circle"
+
+
+@if($attendance->user->photo)
+
+<img src="{{asset('uploads/employees/'.$attendance->user->photo)}}"
 width="45"
-height="45">
+height="45"
+class="rounded-circle">
+
+
+@else
+
+<img src="{{asset('assets/images/avatars/avatar-1.png')}}"
+width="45"
+height="45"
+class="rounded-circle">
+
+@endif
+
+
+
 
 
 <div class="ms-3">
 
+
 <h6 class="mb-0">
-Doglas Martini
+
+{{ $attendance->user->name }}
+
 </h6>
 
+
+
 <small>
-Project Manager
+
+{{ $attendance->user->designation ?? 'Employee' }}
+
 </small>
 
+
 </div>
+
+
 
 
 <div class="ms-auto">
-09:36
+
+
+{{ $attendance->clock_in }}
+
 </div>
 
 
+
 </div>
+
 
 </li>
 
 
 
+@endforeach
 
-<li class="list-group-item bg-transparent">
-
-<div class="d-flex align-items-center">
-
-<img src="{{asset('')}}assets/images/avatars/avatar-4.png"
-class="rounded-circle"
-width="45"
-height="45">
-
-
-<div class="ms-3">
-
-<h6 class="mb-0">
-Brian Villalobos
-</h6>
-
-<small>
-PHP Developer
-</small>
-
-</div>
-
-
-<div class="ms-auto">
-09:15
-</div>
-
-
-</div>
-
-</li>
 
 
 </ul>
 
 
 
+
+
 <hr>
+
 
 
 <div class="row text-center">
 
+
 <div class="col">
 
+
 <h5>
-10:30 AM
+{{ $presentToday }}
 </h5>
 
 <p>
-Clock In
+Present Today
 </p>
 
 </div>
 
 
-<div class="col">
-
-<h5>
-09:45 AM
-</h5>
-
-<p>
-Clock Out
-</p>
-
-</div>
 
 
 <div class="col">
 
+
 <h5>
-09.21 Hrs
+{{ $lateToday }}
 </h5>
 
 <p>
-Production
+Late Today
 </p>
 
+
+</div>
+
+
+
+
+<div class="col">
+
+
+<h5>
+{{ $workingHours }} Hrs
+</h5>
+
+<p>
+Total Working Hours
+</p>
+
+
+</div>
+
+
+
+
+</div>
+
+
+
 </div>
 
 
@@ -761,211 +769,210 @@ Production
 
 </div>
 
-</div>
-
-</div>
 
 
 
 
 
 
-<!-- Job Applicants -->
+    <!-- Employees -->
 
+
+    <div class="row">
+
+
+        <div class="col-xl-8">
+
+
+            <div class="card radius-10">
+
+                <div class="card-body">
+
+
+                    <h5 class="mb-3">
+                        Employees
+                    </h5>
+
+
+
+                    <div class="table-responsive">
+
+
+                        <table class="table align-middle">
+
+
+                            <thead>
+                                <tr>
+
+                                    <th>
+                                        Employee
+                                    </th>
+
+                                    <th>
+                                        Designation
+                                    </th>
+
+                                    <th>
+                                        Department
+                                    </th>
+
+                                </tr>
+                            </thead>
+
+
+
+                            <tbody>
+
+                                @foreach($employees as $employee)
+
+                                    <tr>
+
+                                        <td>
+
+                                            <div class="d-flex align-items-center">
+@if($employee->photo)
+
+<img src="{{ asset('uploads/employees/'.$employee->photo) }}"
+width="40"
+height="40"
+class="rounded-circle">
+
+@else
+
+<img src="{{ asset('assets/images/avatars/avatar-1.png') }}"
+width="40"
+height="40"
+class="rounded-circle">
+
+@endif
+
+
+                                                <span class="ms-2">
+                                                    {{ $employee->name }}
+                                                </span>
+
+
+                                            </div>
+
+                                        </td>
+
+
+                                        <td>
+
+                                            {{ $employee->designation ?? 'Not Assigned' }}
+
+                                        </td>
+
+
+                                        <td>
+
+                                            {{ $employee->department ?? 'Not Assigned' }}
+
+                                        </td>
+
+
+                                    </tr>
+
+
+                                @endforeach
+
+
+                            </tbody>
+
+
+                        </table>
+
+
+                    </div>
+
+
+
+                </div>
+
+            </div>
+
+
+        </div>
+
+
+
+
+
+
+
+
+        <!-- Todo -->
+
+        <div class="col-xl-4">
+
+
+            <div class="card radius-10">
+
+
+                <div class="card-body">
+
+
+                    <h5>
+                        Todo
+                    </h5>
+
+
+                    <hr>
+
+
+                    <ul class="list-group">
+
+
+                        <li class="list-group-item bg-transparent">
+                            Add Holidays
+                        </li>
+
+
+                        <li class="list-group-item bg-transparent">
+                            Add Meeting to Client
+                        </li>
+
+
+                        <li class="list-group-item bg-transparent">
+                            Chat with Adrian
+                        </li>
+
+
+                        <li class="list-group-item bg-transparent">
+                            Management Call
+                        </li>
+
+
+                        <li class="list-group-item bg-transparent">
+                            Add Payroll
+                        </li>
+
+
+                        <li class="list-group-item bg-transparent">
+                            Add Policy for Increment
+                        </li>
+
+
+                    </ul>
+
+
+                </div>
+
+
+            </div>
+
+
+        </div>
+
+
+    </div>
+
+
+
+
+    <div class="row">
 
 <div class="col-xl-6">
-
-
-<div class="card radius-10">
-
-<div class="card-body">
-
-
-<div class="d-flex align-items-center">
-
-<h5 class="mb-0">
-Jobs Applicants
-</h5>
-
-<div class="ms-auto">
-<button class="btn btn-light btn-sm">
-View All
-</button>
-</div>
-
-</div>
-
-
-<hr>
-
-
-<ul class="list-group list-group-flush">
-
-
-
-<li class="list-group-item bg-transparent">
-
-<div class="d-flex align-items-center">
-
-
-<img src="{{asset('')}}assets/images/avatars/avatar-5.png"
-class="rounded-circle"
-width="45">
-
-
-<div class="ms-3">
-
-<h6 class="mb-0">
-Brian Villalobos
-</h6>
-
-<small>
-Exp : 5+ Years | USA
-</small>
-
-<p class="mb-0">
-UI/UX Designer
-</p>
-
-</div>
-
-
-</div>
-
-</li>
-
-
-
-
-<li class="list-group-item bg-transparent">
-
-<div class="d-flex align-items-center">
-
-
-<img src="{{asset('')}}assets/images/avatars/avatar-6.png"
-class="rounded-circle"
-width="45">
-
-
-<div class="ms-3">
-
-<h6 class="mb-0">
-Anthony Lewis
-</h6>
-
-<small>
-Exp : 4+ Years | USA
-</small>
-
-<p class="mb-0">
-Python Developer
-</p>
-
-</div>
-
-
-</div>
-
-</li>
-
-
-
-
-
-<li class="list-group-item bg-transparent">
-
-<div class="d-flex align-items-center">
-
-
-<img src="{{asset('')}}assets/images/avatars/avatar-7.png"
-class="rounded-circle"
-width="45">
-
-
-<div class="ms-3">
-
-<h6 class="mb-0">
-Stephan Peralt
-</h6>
-
-<small>
-Exp : 6+ Years | USA
-</small>
-
-<p class="mb-0">
-Android Developer
-</p>
-
-</div>
-
-
-</div>
-
-</li>
-
-
-
-
-
-<li class="list-group-item bg-transparent">
-
-<div class="d-flex align-items-center">
-
-
-<img src="{{asset('')}}assets/images/avatars/avatar-8.png"
-class="rounded-circle"
-width="45">
-
-
-<div class="ms-3">
-
-<h6 class="mb-0">
-Doglas Martini
-</h6>
-
-<small>
-Exp : 2+ Years | USA
-</small>
-
-<p class="mb-0">
-React Developer
-</p>
-
-</div>
-
-
-</div>
-
-</li>
-
-
-</ul>
-
-
-</div>
-
-</div>
-
-
-</div>
-
-
-</div>
-
-
-
-
-
-
-
-<!-- Employees -->
-
-
-<div class="row">
-
-
-<div class="col-xl-8">
-
 
 <div class="card radius-10">
 
@@ -973,142 +980,50 @@ React Developer
 
 
 <h5 class="mb-3">
-Employees
+Recent Managers
 </h5>
-
 
 
 <div class="table-responsive">
 
 
-<table class="table align-middle">
+<table class="table">
 
 
 <thead>
+
 <tr>
 
-<th>
-Employee
-</th>
+<th>Name</th>
 
-<th>
-Designation
-</th>
-
-<th>
-Department
-</th>
+<th>Email</th>
 
 </tr>
-</thead>
 
+</thead>
 
 
 <tbody>
 
 
+@foreach($managers as $manager)
+
 <tr>
 
 <td>
-
-<div class="d-flex align-items-center">
-
-<img src="{{asset('')}}assets/images/avatars/avatar-2.png"
-width="40"
-class="rounded-circle">
-
-
-<span class="ms-2">
-Anthony Lewis
-</span>
-
-</div>
-
+{{ $manager->name }}
 </td>
 
 
 <td>
-Finance
-</td>
-
-
-<td>
-Finance
+{{ $manager->email }}
 </td>
 
 
 </tr>
 
 
-
-
-<tr>
-
-<td>
-
-<div class="d-flex align-items-center">
-
-<img src="{{asset('')}}assets/images/avatars/avatar-3.png"
-width="40"
-class="rounded-circle">
-
-
-<span class="ms-2">
-Brian Villalobos
-</span>
-
-</div>
-
-</td>
-
-
-<td>
-PHP Developer
-</td>
-
-
-<td>
-Development
-</td>
-
-
-</tr>
-
-
-
-
-<tr>
-
-<td>
-
-<div class="d-flex align-items-center">
-
-<img src="{{asset('')}}assets/images/avatars/avatar-4.png"
-width="40"
-class="rounded-circle">
-
-
-<span class="ms-2">
-Stephan Peralt
-</span>
-
-</div>
-
-</td>
-
-
-<td>
-Executive
-</td>
-
-
-<td>
-Marketing
-</td>
-
-
-</tr>
-
+@endforeach
 
 
 </tbody>
@@ -1120,84 +1035,11 @@ Marketing
 </div>
 
 
-
-</div>
-
-</div>
-
-
-</div>
-
-
-
-
-
-
-
-
-<!-- Todo -->
-
-<div class="col-xl-4">
-
-
-<div class="card radius-10">
-
-
-<div class="card-body">
-
-
-<h5>
-Todo
-</h5>
-
-
-<hr>
-
-
-<ul class="list-group">
-
-
-<li class="list-group-item bg-transparent">
-Add Holidays
-</li>
-
-
-<li class="list-group-item bg-transparent">
-Add Meeting to Client
-</li>
-
-
-<li class="list-group-item bg-transparent">
-Chat with Adrian
-</li>
-
-
-<li class="list-group-item bg-transparent">
-Management Call
-</li>
-
-
-<li class="list-group-item bg-transparent">
-Add Payroll
-</li>
-
-
-<li class="list-group-item bg-transparent">
-Add Policy for Increment
-</li>
-
-
-</ul>
-
-
 </div>
 
-
 </div>
 
-
 </div>
-
 
 </div>
 
@@ -1207,385 +1049,381 @@ Add Policy for Increment
 
 
 
-<!-- Sales Overview -->
+    <!-- Sales Overview -->
 
-<div class="card radius-10">
+    <div class="card radius-10">
 
 
-<div class="card-body">
+        <div class="card-body">
 
 
-<div class="d-flex align-items-center">
+            <div class="d-flex align-items-center">
 
-<h5 class="mb-0">
-Sales Overview
-</h5>
+                <h5 class="mb-0">
+                    Sales Overview
+                </h5>
 
 
-<div class="ms-auto">
+                <div class="ms-auto">
 
-<span>
-Income
-</span>
+                    <span>
+                        Income
+                    </span>
 
-&nbsp;&nbsp;
+                    &nbsp;&nbsp;
 
-<span>
-Expenses
-</span>
+                    <span>
+                        Expenses
+                    </span>
 
 
-</div>
+                </div>
 
 
-</div>
+            </div>
 
 
-<hr>
+            <hr>
 
 
 
-<div class="chart-container-1">
+            <div class="chart-container-1">
 
-<canvas id="salesChart"></canvas>
+                <canvas id="salesChart"></canvas>
 
-</div>
+            </div>
 
 
 
-</div>
+        </div>
 
 
-</div>
+    </div>
 
 
 
 
 
-<script>
+    <script>
 
-var ctx = document.getElementById('salesChart');
+        var ctx = document.getElementById('salesChart');
 
-if(ctx){
+        if (ctx) {
 
-new Chart(ctx, {
+            new Chart(ctx, {
 
-type:'bar',
+                type: 'bar',
 
-data:{
+                data: {
 
-labels:[
-'Jan',
-'Feb',
-'Mar',
-'Apr',
-'May',
-'Jun',
-'Jul',
-'Aug',
-'Sep',
-'Oct',
-'Nov',
-'Dec'
-],
+                    labels: [
+                        'Jan',
+                        'Feb',
+                        'Mar',
+                        'Apr',
+                        'May',
+                        'Jun',
+                        'Jul',
+                        'Aug',
+                        'Sep',
+                        'Oct',
+                        'Nov',
+                        'Dec'
+                    ],
 
-datasets:[{
+                    datasets: [{
 
-label:'Income',
+                        label: 'Income',
 
-data:[
-40,30,45,80,85,90,80,82,80,85,20,80
-],
+                        data: [
+                            40, 30, 45, 80, 85, 90, 80, 82, 80, 85, 20, 80
+                        ],
 
-backgroundColor:'#ff7f45'
+                        backgroundColor: '#ff7f45'
 
-}]
+                    }]
 
 
-},
+                },
 
-options:{
+                options: {
 
-responsive:true,
+                    responsive: true,
 
-plugins:{
+                    plugins: {
 
-legend:{
-display:true
-}
+                        legend: {
+                            display: true
+                        }
 
-}
+                    }
 
-}
+                }
 
-});
+            });
 
-}
+        }
 
-</script>
+    </script>
 
-<!-- Invoice Section -->
+    <!-- Invoice Section -->
 
-<div class="row">
+    <div class="row">
 
 
-<div class="col-xl-5">
+        <div class="col-xl-5">
 
 
-<div class="card radius-10">
+            <div class="card radius-10">
 
 
-<div class="card-body">
+                <div class="card-body">
 
 
-<div class="d-flex align-items-center">
+                    <div class="d-flex align-items-center">
 
-<h5 class="mb-0">
-Invoices
-</h5>
+                        <h5 class="mb-0">
+                            Invoices
+                        </h5>
 
 
-<div class="ms-auto">
-<button class="btn btn-light btn-sm">
-View All
-</button>
-</div>
+                        <div class="ms-auto">
+                            <button class="btn btn-light btn-sm">
+                                View All
+                            </button>
+                        </div>
 
-</div>
+                    </div>
 
 
-<hr>
+                    <hr>
 
 
 
-<ul class="list-group list-group-flush">
+                    <ul class="list-group list-group-flush">
 
 
-<li class="list-group-item bg-transparent">
+                        <li class="list-group-item bg-transparent">
 
 
-<div class="d-flex align-items-center">
+                            <div class="d-flex align-items-center">
 
 
-<img src="{{asset('')}}assets/images/avatars/avatar-1.png"
-width="45"
-class="rounded-circle">
+                                <img src="{{asset('')}}assets/images/avatars/avatar-1.png" width="45"
+                                    class="rounded-circle">
 
 
-<div class="ms-3">
+                                <div class="ms-3">
 
-<h6 class="mb-0">
-Redesign Website
-</h6>
+                                    <h6 class="mb-0">
+                                        Redesign Website
+                                    </h6>
 
-<small>
-#INVOO2 | Logistics
-</small>
+                                    <small>
+                                        #INVOO2 | Logistics
+                                    </small>
 
 
-</div>
+                                </div>
 
 
-<div class="ms-auto text-end">
+                                <div class="ms-auto text-end">
 
-<p class="mb-0">
-Payment
-</p>
+                                    <p class="mb-0">
+                                        Payment
+                                    </p>
 
-<b>
-$3560
-</b>
+                                    <b>
+                                        $3560
+                                    </b>
 
-<br>
+                                    <br>
 
-<span class="badge bg-danger">
-Unpaid
-</span>
+                                    <span class="badge bg-danger">
+                                        Unpaid
+                                    </span>
 
 
-</div>
+                                </div>
 
 
-</div>
+                            </div>
 
 
-</li>
+                        </li>
 
 
 
 
 
-<li class="list-group-item bg-transparent">
+                        <li class="list-group-item bg-transparent">
 
 
-<div class="d-flex align-items-center">
+                            <div class="d-flex align-items-center">
 
 
-<img src="{{asset('')}}assets/images/avatars/avatar-2.png"
-width="45"
-class="rounded-circle">
+                                <img src="{{asset('')}}assets/images/avatars/avatar-2.png" width="45"
+                                    class="rounded-circle">
 
 
-<div class="ms-3">
+                                <div class="ms-3">
 
-<h6 class="mb-0">
-Module Completion
-</h6>
+                                    <h6 class="mb-0">
+                                        Module Completion
+                                    </h6>
 
-<small>
-#INVOO5 | Yip Corp
-</small>
+                                    <small>
+                                        #INVOO5 | Yip Corp
+                                    </small>
 
 
-</div>
+                                </div>
 
 
-<div class="ms-auto text-end">
+                                <div class="ms-auto text-end">
 
-<p>
-Payment
-</p>
+                                    <p>
+                                        Payment
+                                    </p>
 
-<b>
-$4175
-</b>
+                                    <b>
+                                        $4175
+                                    </b>
 
-<br>
+                                    <br>
 
-<span class="badge bg-danger">
-Unpaid
-</span>
+                                    <span class="badge bg-danger">
+                                        Unpaid
+                                    </span>
 
 
-</div>
+                                </div>
 
 
-</div>
+                            </div>
 
 
-</li>
+                        </li>
 
 
 
 
 
 
-<li class="list-group-item bg-transparent">
+                        <li class="list-group-item bg-transparent">
 
 
-<div class="d-flex align-items-center">
+                            <div class="d-flex align-items-center">
 
 
-<img src="{{asset('')}}assets/images/avatars/avatar-3.png"
-width="45"
-class="rounded-circle">
+                                <img src="{{asset('')}}assets/images/avatars/avatar-3.png" width="45"
+                                    class="rounded-circle">
 
 
-<div class="ms-3">
+                                <div class="ms-3">
 
-<h6>
-Change on Emp Module
-</h6>
+                                    <h6>
+                                        Change on Emp Module
+                                    </h6>
 
-<small>
-#INVOO3 | Ignis LLP
-</small>
+                                    <small>
+                                        #INVOO3 | Ignis LLP
+                                    </small>
 
 
-</div>
+                                </div>
 
 
-<div class="ms-auto text-end">
+                                <div class="ms-auto text-end">
 
-<p>
-Payment
-</p>
+                                    <p>
+                                        Payment
+                                    </p>
 
-<b>
-$6985
-</b>
+                                    <b>
+                                        $6985
+                                    </b>
 
-<br>
+                                    <br>
 
-<span class="badge bg-danger">
-Unpaid
-</span>
+                                    <span class="badge bg-danger">
+                                        Unpaid
+                                    </span>
 
 
-</div>
+                                </div>
 
 
-</div>
+                            </div>
 
 
-</li>
+                        </li>
 
 
 
 
 
-<li class="list-group-item bg-transparent">
+                        <li class="list-group-item bg-transparent">
 
 
-<div class="d-flex align-items-center">
+                            <div class="d-flex align-items-center">
 
 
-<img src="{{asset('')}}assets/images/avatars/avatar-4.png"
-width="45"
-class="rounded-circle">
+                                <img src="{{asset('')}}assets/images/avatars/avatar-4.png" width="45"
+                                    class="rounded-circle">
 
 
-<div class="ms-3">
+                                <div class="ms-3">
 
-<h6>
-Hospital Management
-</h6>
+                                    <h6>
+                                        Hospital Management
+                                    </h6>
 
-<small>
-#INVOO6 | HCL Corp
-</small>
+                                    <small>
+                                        #INVOO6 | HCL Corp
+                                    </small>
 
 
-</div>
+                                </div>
 
 
-<div class="ms-auto text-end">
+                                <div class="ms-auto text-end">
 
-<p>
-Payment
-</p>
+                                    <p>
+                                        Payment
+                                    </p>
 
-<b>
-$6458
-</b>
+                                    <b>
+                                        $6458
+                                    </b>
 
-<br>
+                                    <br>
 
-<span class="badge bg-success">
-Paid
-</span>
+                                    <span class="badge bg-success">
+                                        Paid
+                                    </span>
 
 
-</div>
+                                </div>
 
 
-</div>
+                            </div>
 
 
-</li>
+                        </li>
 
 
-</ul>
+                    </ul>
 
 
 
-</div>
+                </div>
 
 
-</div>
+            </div>
 
 
-</div>
+        </div>
 
 
 
@@ -1593,217 +1431,217 @@ Paid
 
 
 
-<!-- Projects -->
+        <!-- Projects -->
 
 
-<div class="col-xl-7">
+        <div class="col-xl-7">
 
 
-<div class="card radius-10">
+            <div class="card radius-10">
 
 
-<div class="card-body">
+                <div class="card-body">
 
 
-<div class="d-flex align-items-center">
+                    <div class="d-flex align-items-center">
 
-<h5>
-Projects
-</h5>
+                        <h5>
+                            Projects
+                        </h5>
 
 
-<button class="btn btn-light btn-sm ms-auto">
-September
-</button>
+                        <button class="btn btn-light btn-sm ms-auto">
+                            September
+                        </button>
 
 
-</div>
+                    </div>
 
 
-<hr>
+                    <hr>
 
 
 
-<div class="table-responsive">
+                    <div class="table-responsive">
 
 
-<table class="table align-middle">
+                        <table class="table align-middle">
 
 
-<thead>
+                            <thead>
 
-<tr>
+                                <tr>
 
-<th>
-ID
-</th>
+                                    <th>
+                                        ID
+                                    </th>
 
-<th>
-Name
-</th>
+                                    <th>
+                                        Name
+                                    </th>
 
-<th>
-Team
-</th>
+                                    <th>
+                                        Team
+                                    </th>
 
-<th>
-Hours
-</th>
+                                    <th>
+                                        Hours
+                                    </th>
 
-<th>
-Priority
-</th>
+                                    <th>
+                                        Priority
+                                    </th>
 
 
-</tr>
+                                </tr>
 
-</thead>
+                            </thead>
 
 
 
-<tbody>
+                            <tbody>
 
 
-<tr>
+                                <tr>
 
-<td>
-PRO-001
-</td>
+                                    <td>
+                                        PRO-001
+                                    </td>
 
-<td>
-Office Management App
-</td>
+                                    <td>
+                                        Office Management App
+                                    </td>
 
-<td>
-<i class="bx bx-user"></i>
-<i class="bx bx-user"></i>
-</td>
+                                    <td>
+                                        <i class="bx bx-user"></i>
+                                        <i class="bx bx-user"></i>
+                                    </td>
 
-<td>
-15/255 Hrs
-</td>
+                                    <td>
+                                        15/255 Hrs
+                                    </td>
 
-<td>
-<span class="badge bg-danger">
-High
-</span>
-</td>
+                                    <td>
+                                        <span class="badge bg-danger">
+                                            High
+                                        </span>
+                                    </td>
 
-</tr>
+                                </tr>
 
 
 
 
-<tr>
+                                <tr>
 
-<td>
-PRO-002
-</td>
+                                    <td>
+                                        PRO-002
+                                    </td>
 
-<td>
-Clinic Management
-</td>
+                                    <td>
+                                        Clinic Management
+                                    </td>
 
-<td>
-<i class="bx bx-user"></i>
-</td>
+                                    <td>
+                                        <i class="bx bx-user"></i>
+                                    </td>
 
-<td>
-15/255 Hrs
-</td>
+                                    <td>
+                                        15/255 Hrs
+                                    </td>
 
-<td>
-<span class="badge bg-success">
-Low
-</span>
-</td>
+                                    <td>
+                                        <span class="badge bg-success">
+                                            Low
+                                        </span>
+                                    </td>
 
-</tr>
+                                </tr>
 
 
 
 
 
-<tr>
+                                <tr>
 
-<td>
-PRO-003
-</td>
+                                    <td>
+                                        PRO-003
+                                    </td>
 
-<td>
-Educational Platform
-</td>
+                                    <td>
+                                        Educational Platform
+                                    </td>
 
-<td>
-<i class="bx bx-user"></i>
-</td>
+                                    <td>
+                                        <i class="bx bx-user"></i>
+                                    </td>
 
-<td>
-40/255 Hrs
-</td>
+                                    <td>
+                                        40/255 Hrs
+                                    </td>
 
-<td>
+                                    <td>
 
-<span class="badge bg-warning">
-Medium
-</span>
+                                        <span class="badge bg-warning">
+                                            Medium
+                                        </span>
 
-</td>
+                                    </td>
 
 
-</tr>
+                                </tr>
 
 
 
 
 
-<tr>
+                                <tr>
 
-<td>
-PRO-004
-</td>
+                                    <td>
+                                        PRO-004
+                                    </td>
 
-<td>
-Chat & Call Mobile App
-</td>
+                                    <td>
+                                        Chat & Call Mobile App
+                                    </td>
 
-<td>
-<i class="bx bx-user"></i>
-</td>
+                                    <td>
+                                        <i class="bx bx-user"></i>
+                                    </td>
 
-<td>
-35/155 Hrs
-</td>
+                                    <td>
+                                        35/155 Hrs
+                                    </td>
 
-<td>
-<span class="badge bg-danger">
-High
-</span>
-</td>
+                                    <td>
+                                        <span class="badge bg-danger">
+                                            High
+                                        </span>
+                                    </td>
 
-</tr>
+                                </tr>
 
 
 
-</tbody>
+                            </tbody>
 
 
-</table>
+                        </table>
 
 
-</div>
+                    </div>
 
 
 
-</div>
+                </div>
 
-</div>
+            </div>
 
 
-</div>
+        </div>
 
 
-</div>
+    </div>
 
 
 
@@ -1812,198 +1650,197 @@ High
 
 
 
-<!-- Task Statistics -->
+    <!-- Task Statistics -->
 
 
-<div class="row">
+    <div class="row">
 
 
-<div class="col-xl-4">
+        <div class="col-xl-4">
 
 
-<div class="card radius-10">
+            <div class="card radius-10">
 
 
-<div class="card-body">
+                <div class="card-body">
 
 
-<h5>
-Tasks Statistics
-</h5>
+                    <h5>
+                        Tasks Statistics
+                    </h5>
 
 
-<hr>
+                    <hr>
 
 
-<h2>
-124/165
-</h2>
+                    <h2>
+                        124/165
+                    </h2>
 
-<p>
-Total Tasks
-</p>
+                    <p>
+                        Total Tasks
+                    </p>
 
 
 
-<div class="progress mb-3">
+                    <div class="progress mb-3">
 
-<div class="progress-bar bg-success"
-style="width:40%">
-</div>
+                        <div class="progress-bar bg-success" style="width:40%">
+                        </div>
 
-</div>
+                    </div>
 
 
-<div class="row text-center">
+                    <div class="row text-center">
 
 
-<div class="col">
+                        <div class="col">
 
-<h5>
-24%
-</h5>
+                            <h5>
+                                24%
+                            </h5>
 
-<small>
-Ongoing
-</small>
+                            <small>
+                                Ongoing
+                            </small>
 
 
-</div>
+                        </div>
 
 
 
-<div class="col">
+                        <div class="col">
 
-<h5>
-10%
-</h5>
+                            <h5>
+                                10%
+                            </h5>
 
-<small>
-On Hold
-</small>
+                            <small>
+                                On Hold
+                            </small>
 
 
-</div>
+                        </div>
 
 
 
-<div class="col">
+                        <div class="col">
 
-<h5>
-16%
-</h5>
+                            <h5>
+                                16%
+                            </h5>
 
-<small>
-Overdue
-</small>
+                            <small>
+                                Overdue
+                            </small>
 
 
-</div>
+                        </div>
 
 
-</div>
+                    </div>
 
 
-<hr>
+                    <hr>
 
 
-<h5>
-389/689 hrs
-</h5>
+                    <h5>
+                        389/689 hrs
+                    </h5>
 
-<p>
-Spent on Overall Tasks This Week
-</p>
+                    <p>
+                        Spent on Overall Tasks This Week
+                    </p>
 
 
 
-</div>
+                </div>
 
-</div>
+            </div>
 
 
-</div>
+        </div>
 
 
 
 
 
 
-<!-- Schedule -->
+        <!-- Schedule -->
 
 
-<div class="col-xl-4">
+        <div class="col-xl-4">
 
 
-<div class="card radius-10">
+            <div class="card radius-10">
 
 
-<div class="card-body">
+                <div class="card-body">
 
 
-<h5>
-Schedules
-</h5>
+                    <h5>
+                        Schedules
+                    </h5>
 
 
-<hr>
+                    <hr>
 
 
-<div class="border-bottom pb-3 mb-3">
+                    <div class="border-bottom pb-3 mb-3">
 
 
-<h6>
-UI/UX Designer
-</h6>
+                        <h6>
+                            UI/UX Designer
+                        </h6>
 
 
-<p class="mb-0">
-Interview Candidates - UI/UX Designer
-</p>
+                        <p class="mb-0">
+                            Interview Candidates - UI/UX Designer
+                        </p>
 
 
-<small>
-Thu, 15 Feb 2025
-<br>
-01:00 PM - 02:20 PM
-</small>
+                        <small>
+                            Thu, 15 Feb 2025
+                            <br>
+                            01:00 PM - 02:20 PM
+                        </small>
 
 
-</div>
+                    </div>
 
 
 
-<div>
+                    <div>
 
 
-<h6>
-IOS Developer
-</h6>
+                        <h6>
+                            IOS Developer
+                        </h6>
 
 
-<p>
-Interview Candidates - IOS Developer
-</p>
+                        <p>
+                            Interview Candidates - IOS Developer
+                        </p>
 
 
-<small>
-Thu, 15 Feb 2025
-<br>
-02:00 PM - 04:20 PM
-</small>
+                        <small>
+                            Thu, 15 Feb 2025
+                            <br>
+                            02:00 PM - 04:20 PM
+                        </small>
 
 
-</div>
+                    </div>
 
 
 
-</div>
+                </div>
 
 
-</div>
+            </div>
 
 
-</div>
+        </div>
 
 
 
@@ -2011,124 +1848,124 @@ Thu, 15 Feb 2025
 
 
 
-<!-- Recent Activity -->
+        <!-- Recent Activity -->
 
 
-<div class="col-xl-4">
+        <div class="col-xl-4">
 
 
-<div class="card radius-10">
+            <div class="card radius-10">
 
 
-<div class="card-body">
+                <div class="card-body">
 
 
-<h5>
-Recent Activities
-</h5>
+                    <h5>
+                        Recent Activities
+                    </h5>
 
 
-<hr>
+                    <hr>
 
 
 
-<ul class="list-group">
+                    <ul class="list-group">
 
 
-<li class="list-group-item bg-transparent">
+                        <li class="list-group-item bg-transparent">
 
-Matt Morgan
-<br>
+                            Matt Morgan
+                            <br>
 
-<small>
-Added New Project HRMS Dashboard
-</small>
+                            <small>
+                                Added New Project HRMS Dashboard
+                            </small>
 
-<span class="float-end">
-05:30 PM
-</span>
+                            <span class="float-end">
+                                05:30 PM
+                            </span>
 
-</li>
+                        </li>
 
 
 
 
-<li class="list-group-item bg-transparent">
+                        <li class="list-group-item bg-transparent">
 
-Jay Ze
+                            Jay Ze
 
-<br>
+                            <br>
 
-<small>
-Commented on Uploaded Document
-</small>
+                            <small>
+                                Commented on Uploaded Document
+                            </small>
 
 
-<span class="float-end">
-05:00 PM
-</span>
+                            <span class="float-end">
+                                05:00 PM
+                            </span>
 
 
-</li>
+                        </li>
 
 
 
 
 
-<li class="list-group-item bg-transparent">
+                        <li class="list-group-item bg-transparent">
 
-Mary Donald
+                            Mary Donald
 
-<br>
+                            <br>
 
-<small>
-Approved Task Projects
-</small>
+                            <small>
+                                Approved Task Projects
+                            </small>
 
 
-<span class="float-end">
-05:30 PM
-</span>
+                            <span class="float-end">
+                                05:30 PM
+                            </span>
 
 
-</li>
+                        </li>
 
 
 
 
-<li class="list-group-item bg-transparent">
+                        <li class="list-group-item bg-transparent">
 
-George David
+                            George David
 
-<br>
+                            <br>
 
-<small>
-Requesting Access to Module Tickets
-</small>
+                            <small>
+                                Requesting Access to Module Tickets
+                            </small>
 
 
-<span class="float-end">
-06:00 PM
-</span>
+                            <span class="float-end">
+                                06:00 PM
+                            </span>
 
 
-</li>
+                        </li>
 
 
 
-</ul>
+                    </ul>
 
 
 
-</div>
+                </div>
 
-</div>
+            </div>
 
 
-</div>
+        </div>
 
 
-</div>
+    </div>
 
 
 
@@ -2136,133 +1973,127 @@ Requesting Access to Module Tickets
 
 
 
-<!-- Birthdays -->
+    <!-- Birthdays -->
 
 
-<div class="card radius-10">
+    <div class="card radius-10">
 
 
-<div class="card-body">
+        <div class="card-body">
 
 
-<div class="d-flex align-items-center">
+            <div class="d-flex align-items-center">
 
-<h5>
-Birthdays
-</h5>
+                <h5>
+                    Birthdays
+                </h5>
 
 
-<button class="btn btn-light btn-sm ms-auto">
-View All
-</button>
+                <button class="btn btn-light btn-sm ms-auto">
+                    View All
+                </button>
 
 
-</div>
+            </div>
 
 
-<hr>
+            <hr>
 
 
 
-<div class="row">
+            <div class="row">
 
 
-<div class="col-md-4">
+                <div class="col-md-4">
 
-<div class="d-flex align-items-center">
+                    <div class="d-flex align-items-center">
 
-<img src="{{asset('')}}assets/images/avatars/avatar-5.png"
-width="50"
-class="rounded-circle">
+                        <img src="{{asset('')}}assets/images/avatars/avatar-5.png" width="50" class="rounded-circle">
 
 
-<div class="ms-3">
+                        <div class="ms-3">
 
-<h6>
-Andrew Jermia
-</h6>
+                            <h6>
+                                Andrew Jermia
+                            </h6>
 
-<small>
-IOS Developer
-</small>
+                            <small>
+                                IOS Developer
+                            </small>
 
-</div>
+                        </div>
 
 
-</div>
+                    </div>
 
-</div>
+                </div>
 
 
 
 
-<div class="col-md-4">
+                <div class="col-md-4">
 
 
-<div class="d-flex align-items-center">
+                    <div class="d-flex align-items-center">
 
-<img src="{{asset('')}}assets/images/avatars/avatar-6.png"
-width="50"
-class="rounded-circle">
+                        <img src="{{asset('')}}assets/images/avatars/avatar-6.png" width="50" class="rounded-circle">
 
 
-<div class="ms-3">
+                        <div class="ms-3">
 
-<h6>
-Mary Zeen
-</h6>
+                            <h6>
+                                Mary Zeen
+                            </h6>
 
-<small>
-UI/UX Designer
-</small>
+                            <small>
+                                UI/UX Designer
+                            </small>
 
-</div>
+                        </div>
 
 
-</div>
+                    </div>
 
 
-</div>
+                </div>
 
 
 
 
 
-<div class="col-md-4">
+                <div class="col-md-4">
 
 
-<div class="d-flex align-items-center">
+                    <div class="d-flex align-items-center">
 
-<img src="{{asset('')}}assets/images/avatars/avatar-7.png"
-width="50"
-class="rounded-circle">
+                        <img src="{{asset('')}}assets/images/avatars/avatar-7.png" width="50" class="rounded-circle">
 
 
-<div class="ms-3">
+                        <div class="ms-3">
 
-<h6>
-Antony Lewis
-</h6>
+                            <h6>
+                                Antony Lewis
+                            </h6>
 
-<small>
-Android Developer
-</small>
+                            <small>
+                                Android Developer
+                            </small>
 
-</div>
+                        </div>
 
 
-</div>
+                    </div>
 
 
-</div>
+                </div>
 
 
 
-</div>
+            </div>
 
 
-</div>
+        </div>
 
 
-</div>
+    </div>
 @endsection

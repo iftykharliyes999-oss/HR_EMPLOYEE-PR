@@ -70,9 +70,14 @@ class User extends Authenticatable
 
 
 
-    // Employee কোন Manager এর under এ আছে
+
     public function manager()
 {
     return $this->belongsTo(User::class,'manager_id');
+}
+
+public function attendances()
+{
+    return $this->hasMany(Attendance::class);
 }
 }

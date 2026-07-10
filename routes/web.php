@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Admin\EmployeeController;
 use App\Http\Controllers\Admin\ManagerController;
+use App\Http\Controllers\Employee\AttendanceController;
 use App\Http\Controllers\Manager\DashboardController as ManagerDashboardController;
 use App\Http\Controllers\Employee\DashboardController as EmployeeDashboardController;
 
@@ -25,7 +26,7 @@ Route::middleware('auth')->group(function () {
 
 
 
-Route::middleware(['auth', 'role:Super Admin'])->group(function () {
+Route::middleware(['auth', 'role:Admin'])->group(function () {
 
     Route::get('/admin/dashboard', [AdminDashboardController::class, 'index'])
         ->name('admin.dashboard');
@@ -36,8 +37,8 @@ Route::middleware(['auth', 'role:Super Admin'])->group(function () {
 
 
     Route::resource('/admin/employees', EmployeeController::class)
-    ->names('admin.employees'); 
-    
+    ->names('admin.employees');
+
     Route::get('/admin/employees/{id}/status/{status}',
 [EmployeeController::class,'status'])
 ->name('admin.employees.status');
@@ -51,6 +52,23 @@ Route::middleware(['auth', 'role:Manager'])->group(function () {
 Route::middleware(['auth', 'role:Employee'])->group(function () {
     Route::get('/employee/dashboard', [EmployeeDashboardController::class, 'index'])
         ->name('employee.dashboard');
+});
+
+
+Route::middleware(['auth'])->group(function(){
+
+
+    Route::post('/attendance/clock-in',
+    [AttendanceController::class,'clockIn'])
+    ->name('attendance.clockin');
+
+
+
+    Route::post('/attendance/clock-out',
+    [AttendanceController::class,'clockOut'])
+    ->name('attendance.clockout');
+
+
 });
 
 require __DIR__.'/auth.php';
