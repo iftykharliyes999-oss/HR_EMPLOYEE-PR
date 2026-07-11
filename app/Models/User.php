@@ -80,4 +80,19 @@ public function attendances()
 {
     return $this->hasMany(Attendance::class);
 }
+
+public function leaves()
+{
+    return $this->hasMany(Leave::class, 'employee_id');
+}
+
+
+public function managedLeaves()
+{
+    return $this->hasMany(Leave::class, 'manager_id');
+}
+
+
+
+
 }

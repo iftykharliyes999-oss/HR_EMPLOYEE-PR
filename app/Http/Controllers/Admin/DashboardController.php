@@ -76,31 +76,51 @@ class DashboardController extends Controller
     ->take(5)
     ->get();
 
-        return view('admin.dashboard',compact(
 
-            'totalEmployee',
+    $totalAdmin = User::role('admin')->count();
 
-            'totalManager',
+$verifiedEmployee = User::role('employee')
+    ->where('verification_status', 'verified')
+    ->count();
 
-            'employees',
+$pendingEmployee = User::role('employee')
+    ->where('verification_status', 'pending')
+    ->count();
 
-            'managers',
+$newEmployeesThisMonth = User::role('employee')
+    ->whereMonth('created_at', now()->month)
+    ->whereYear('created_at', now()->year)
+    ->count();
 
-            'presentToday',
+$maleEmployee = User::role('employee')
+    ->where('gender', 'Male')
+    ->count();
 
-            'lateToday',
+$femaleEmployee = User::role('employee')
+    ->where('gender', 'Female')
+    ->count();
 
-            'absentToday',
+        return view('admin.dashboard', compact(
 
-            'workingHours',
+    'totalEmployee',
+    'totalManager',
+    'employees',
+    'managers',
+    'presentToday',
+    'lateToday',
+    'absentToday',
+    'workingHours',
+    'departments',
+    'todayAttendance',
 
-            'departments',
+    'totalAdmin',
+    'verifiedEmployee',
+    'pendingEmployee',
+    'newEmployeesThisMonth',
+    'maleEmployee',
+    'femaleEmployee'
 
-            'todayAttendance'
-
-
-        ));
-
+));
 
 
     }

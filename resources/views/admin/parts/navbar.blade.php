@@ -37,8 +37,12 @@
         All Employee
     </a>
 </li>
-                             <li><a class="dropdown-item" href="{{ asset('') }}dashboard-analytics.html"><i
-                                         class='bx bx-line-chart-down'></i>Analytics</a></li>
+                             <li>
+    <a href="{{ route('admin.leaves.index') }}">
+        <i class="bx bx-calendar"></i>
+        <span>Leave Management</span>
+    </a>
+</li>
                              <li><a class="dropdown-item" href="{{ asset('') }}dashboard-alternate.html"><i
                                          class='bx bx-shield-alt-2'></i>Alternate</a></li>
                              <li><a class="dropdown-item" href="{{ asset('') }}dashboard-digital-marketing.html"><i

@@ -525,40 +525,37 @@ Overdue
 <!-- Quick Action -->
 
 
-<div class="card radius-10">
+<div class="card radius-10 shadow-sm">
 
+    <div class="card-header bg-white">
+        <h5 class="mb-0">
+            <i class="bx bx-bolt-circle text-primary"></i>
+            Quick Actions
+        </h5>
+    </div>
 
-<div class="card-body">
+    <div class="card-body">
 
+        <div class="d-grid gap-2">
 
-<h5>
-Quick Actions
-</h5>
+            <a href="{{ route('profile.edit') }}" class="btn btn-outline-primary">
+                <i class="bx bx-user"></i>
+                Edit Profile
+            </a>
 
+            <a href="{{ route('employee.leaves.create') }}" class="btn btn-success">
+                <i class="bx bx-calendar-plus"></i>
+                Apply Leave
+            </a>
 
-<hr>
+            <a href="{{ route('employee.leaves.index') }}" class="btn btn-outline-warning">
+                <i class="bx bx-history"></i>
+                Leave History
+            </a>
 
+        </div>
 
-<a href="#" class="btn btn-primary me-2">
-Edit Profile
-</a>
-
-
-
-<a href="#" class="btn btn-success me-2">
-Apply Leave
-</a>
-
-
-
-<a href="#" class="btn btn-warning">
-My Tasks
-</a>
-
-
-
-</div>
-
+    </div>
 
 </div>
 
