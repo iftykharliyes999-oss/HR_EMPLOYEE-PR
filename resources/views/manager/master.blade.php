@@ -31,9 +31,9 @@
 		<!--start header wrapper-->
 <div class="header-wrapper">
 
-    @include('admin.parts.header')
+    @include('manager.parts.header')
 
-    @include('admin.parts.navbar')
+    @include('manager.parts.navbar')
 
 </div>
 <!--end header wrapper-->
@@ -49,11 +49,11 @@
 
 		<!--Start Back To Top Button--> <a href="{{asset('')}}javaScript:;" class="back-to-top"><i class='bx bxs-up-arrow-alt'></i></a>
 		<!--End Back To Top Button-->
-		@include('admin.parts.footer')
+		@include('manager.parts.footer')
 	</div>
 	<!--end wrapper-->
 	<!--start switcher-->
-	@include('admin.parts.switcher')
+	@include('manager.parts.switcher')
 	<!--end switcher-->
 	<!-- Bootstrap JS -->
 	<script src="{{asset('')}}assets/js/bootstrap.bundle.min.js"></script>

@@ -4,9 +4,9 @@
 @section('content')
 
 
-<div class="page-wrapper">
+<div >
 
-<div class="page-content">
+<div>
 
 
 
@@ -72,130 +72,59 @@ class="rounded-circle">
 
 
 <!-- Statistics -->
+<div class="row row-cols-1 row-cols-md-2 row-cols-xl-5">
 
-<div class="row row-cols-1 row-cols-md-2 row-cols-xl-4">
+    <div class="col">
+        <div class="card border-start border-success border-4 shadow-sm">
+            <div class="card-body">
+                <h6 class="text-muted">Present Days</h6>
+                <h3>{{ $present }}</h3>
+                <i class="bx bx-check-circle fs-1 text-success"></i>
+            </div>
+        </div>
+    </div>
 
+    <div class="col">
+        <div class="card border-start border-warning border-4 shadow-sm">
+            <div class="card-body">
+                <h6 class="text-muted">Late Days</h6>
+                <h3>{{ $late }}</h3>
+                <i class="bx bx-time-five fs-1 text-warning"></i>
+            </div>
+        </div>
+    </div>
 
+    <div class="col">
+        <div class="card border-start border-danger border-4 shadow-sm">
+            <div class="card-body">
+                <h6 class="text-muted">Absent Days</h6>
+                <h3>{{ $absent }}</h3>
+                <i class="bx bx-x-circle fs-1 text-danger"></i>
+            </div>
+        </div>
+    </div>
 
-<div class="col">
+    <div class="col">
+        <div class="card border-start border-info border-4 shadow-sm">
+            <div class="card-body">
+                <h6 class="text-muted">Working Time</h6>
+                <h3>{{ $totalWorkingTime }}</h3>
+                <i class="bx bx-timer fs-1 text-info"></i>
+            </div>
+        </div>
+    </div>
 
-<div class="card radius-10">
-
-<div class="card-body">
-
-
-<h6>
-Present Days
-</h6>
-
-
-<h2>
-{{$present}}
-</h2>
-
-
-<i class="bx bx-check-circle fs-2"></i>
-
-
-</div>
-
-</div>
-
-</div>
-
-
-
-
-
-<div class="col">
-
-<div class="card radius-10">
-
-<div class="card-body">
-
-
-<h6>
-Late Days
-</h6>
-
-
-<h2>
-{{$late}}
-</h2>
-
-
-<i class="bx bx-time fs-2"></i>
-
+    <div class="col">
+        <div class="card border-start border-primary border-4 shadow-sm">
+            <div class="card-body">
+                <h6 class="text-muted">This Month</h6>
+                <h3>{{ $monthlyAttendance }}</h3>
+                <i class="bx bx-calendar-check fs-1 text-primary"></i>
+            </div>
+        </div>
+    </div>
 
 </div>
-
-</div>
-
-</div>
-
-
-
-
-
-<div class="col">
-
-<div class="card radius-10">
-
-<div class="card-body">
-
-
-<h6>
-Absent Days
-</h6>
-
-
-<h2>
-{{$absent}}
-</h2>
-
-
-<i class="bx bx-x-circle fs-2"></i>
-
-
-</div>
-
-</div>
-
-</div>
-
-
-
-
-
-<div class="col">
-
-<div class="card radius-10">
-
-<div class="card-body">
-
-
-<h6>
-Working Hours
-</h6>
-
-
-<h2>
-{{$workingHours}}
-</h2>
-
-
-<i class="bx bx-hourglass fs-2"></i>
-
-
-</div>
-
-</div>
-
-</div>
-
-
-</div>
-
 
 
 
@@ -208,100 +137,103 @@ Working Hours
 
 <!-- Attendance -->
 
-<div class="card radius-10">
+<div class="card radius-10 shadow-sm">
 
-<div class="card-body">
+    <div class="card-header bg-white">
 
+        <h5 class="mb-0">
+            <i class="bx bx-fingerprint text-success"></i>
+            Today's Attendance
+        </h5>
 
-<h5>
-Today's Attendance
-</h5>
+    </div>
 
+    <div class="card-body">
 
-<hr>
+        @if(!$todayAttendance)
 
+            <div class="text-center">
 
-@if(!$todayAttendance)
+                <h4 class="mb-3">
+                    Not Clocked In Yet
+                </h4>
 
+                <form method="POST"
+                      action="{{ route('attendance.clockin') }}">
 
-<form method="POST" action="{{route('attendance.clockin')}}">
+                    @csrf
 
-@csrf
+                    <button class="btn btn-success btn-lg">
 
-<button class="btn btn-success">
-<i class="bx bx-log-in"></i>
-Clock In
-</button>
+                        <i class="bx bx-log-in-circle"></i>
 
+                        Clock In
 
-</form>
+                    </button>
 
+                </form>
 
+            </div>
 
-@elseif(!$todayAttendance->clock_out)
+        @elseif(!$todayAttendance->clock_out)
 
+            <div class="alert alert-success">
 
+                Clock In:
+                {{ $todayAttendance->clock_in }}
 
-<p>
-Clock In :
-{{$todayAttendance->clock_in}}
-</p>
+            </div>
 
+            <form method="POST"
+                  action="{{ route('attendance.clockout') }}">
 
+                @csrf
 
-<form method="POST" action="{{route('attendance.clockout')}}">
+                <button class="btn btn-danger">
 
-@csrf
+                    <i class="bx bx-log-out-circle"></i>
 
+                    Clock Out
 
-<button class="btn btn-danger">
+                </button>
 
-<i class="bx bx-log-out"></i>
+            </form>
 
-Clock Out
+        @else
 
-</button>
+            <table class="table">
 
+                <tr>
+                    <th>Clock In</th>
+                    <td>{{ $todayAttendance->clock_in }}</td>
+                </tr>
 
-</form>
+                <tr>
+                    <th>Clock Out</th>
+                    <td>{{ $todayAttendance->clock_out }}</td>
+                </tr>
 
+                <tr>
+                    <th>Status</th>
+                    <td>
+                        <span class="badge bg-success">
+                            {{ $todayAttendance->status }}
+                        </span>
+                    </td>
+                </tr>
 
+                <tr>
+                    <th>Working Hours</th>
+                    <td>{{ $todayAttendance->working_hours }}</td>
+                </tr>
 
-@else
+            </table>
 
+        @endif
 
-<p>
-Clock In :
-{{$todayAttendance->clock_in}}
-</p>
-
-
-<p>
-Clock Out :
-{{$todayAttendance->clock_out}}
-</p>
-
-
-
-<p>
-
-Working Hours :
-
-{{$todayAttendance->working_hours}}
-
-Hours
-
-</p>
-
-
-@endif
-
-
+    </div>
 
 </div>
-
-</div>
-
 
 
 
@@ -405,112 +337,30 @@ My Information
 <!-- Task Section -->
 
 
-<div class="card radius-10">
+<div class="card radius-10 shadow-sm">
 
+    <div class="card-header bg-white">
 
-<div class="card-body">
+        <h5 class="mb-0">
 
+            <i class="bx bx-calendar-event text-danger"></i>
 
-<div class="d-flex">
+            Upcoming Holidays
 
-<h5>
-Today's Tasks
-</h5>
+        </h5>
 
+    </div>
 
-<button class="btn btn-light btn-sm ms-auto">
-View All
-</button>
+    <div class="card-body">
 
+        <a href="{{ route('employee.holidays.index') }}"
+           class="btn btn-outline-primary">
 
-</div>
+            View Holidays
 
+        </a>
 
-
-<hr>
-
-
-
-<div class="row">
-
-
-
-<div class="col-md-4">
-
-
-<div class="alert alert-warning">
-
-<i class="bx bx-task"></i>
-
-<br>
-
-Pending Task
-
-<h3>
-5
-</h3>
-
-</div>
-
-
-</div>
-
-
-
-
-<div class="col-md-4">
-
-
-<div class="alert alert-success">
-
-<i class="bx bx-check"></i>
-
-<br>
-
-Completed
-
-<h3>
-12
-</h3>
-
-
-</div>
-
-
-</div>
-
-
-
-
-
-<div class="col-md-4">
-
-
-<div class="alert alert-danger">
-
-<i class="bx bx-error"></i>
-
-<br>
-
-Overdue
-
-<h3>
-2
-</h3>
-
-
-</div>
-
-
-</div>
-
-
-
-
-</div>
-
-
-</div>
+    </div>
 
 </div>
 
@@ -524,41 +374,68 @@ Overdue
 
 <!-- Quick Action -->
 
-
 <div class="card radius-10 shadow-sm">
 
     <div class="card-header bg-white">
-        <h5 class="mb-0">
+
+        <h5>
+
             <i class="bx bx-bolt-circle text-primary"></i>
+
             Quick Actions
+
         </h5>
+
     </div>
 
     <div class="card-body">
 
-        <div class="d-grid gap-2">
+        <div class="row g-3">
 
-            <a href="{{ route('profile.edit') }}" class="btn btn-outline-primary">
-                <i class="bx bx-user"></i>
-                Edit Profile
-            </a>
+            <div class="col-md-4">
 
-            <a href="{{ route('employee.leaves.create') }}" class="btn btn-success">
-                <i class="bx bx-calendar-plus"></i>
-                Apply Leave
-            </a>
+                <a href="{{ route('employee.profile') }}"
+                   class="btn btn-outline-primary w-100">
 
-            <a href="{{ route('employee.leaves.index') }}" class="btn btn-outline-warning">
-                <i class="bx bx-history"></i>
-                Leave History
-            </a>
+                    <i class="bx bx-user"></i>
+
+                    My Profile
+
+                </a>
+
+            </div>
+
+            <div class="col-md-4">
+
+                <a href="{{ route('employee.leaves.create') }}"
+                   class="btn btn-success w-100">
+
+                    <i class="bx bx-calendar-plus"></i>
+
+                    Apply Leave
+
+                </a>
+
+            </div>
+
+            <div class="col-md-4">
+
+                <a href="{{ route('employee.leaves.index') }}"
+                   class="btn btn-warning w-100">
+
+                    <i class="bx bx-history"></i>
+
+                    Leave History
+
+                </a>
+
+            </div>
 
         </div>
 
     </div>
 
 </div>
-
 
 
 

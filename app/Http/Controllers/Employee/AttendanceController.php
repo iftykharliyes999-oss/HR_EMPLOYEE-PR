@@ -63,12 +63,17 @@ class AttendanceController extends Controller
         $clockIn = Carbon::parse($attendance->clock_in);
 
 
-        $hours = $clockIn->diffInHours($clockOut);
+        $minutes = $clockIn->diffInMinutes($clockOut);
 
-        $minutes = $clockIn
-            ->copy()
-            ->addHours($hours)
-            ->diffInMinutes($clockOut);
+$hours = floor($minutes / 60);
+
+$remainingMinutes = $minutes % 60;
+
+$workingHours = sprintf(
+    '%d:%02d',
+    $hours,
+    $remainingMinutes
+);
 
         // Format: 0.30 / 1.00 / 8.45
         $workingHours = sprintf('%d.%02d', $hours, $minutes);

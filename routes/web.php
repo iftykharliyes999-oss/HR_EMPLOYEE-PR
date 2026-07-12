@@ -6,16 +6,20 @@ use App\Http\Controllers\ProfileController;
 // ====================== Admin ======================
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Admin\EmployeeController;
+use App\Http\Controllers\Admin\HolidayController;
 use App\Http\Controllers\Admin\ManagerController;
 
 // ====================== Manager ======================
 use App\Http\Controllers\Manager\DashboardController as ManagerDashboardController;
 use App\Http\Controllers\Manager\LeaveController as ManagerLeaveController;
 
+use App\Http\Controllers\Manager\HolidayController as ManagerHolidayController;
+
 // ====================== Employee ======================
 use App\Http\Controllers\Employee\DashboardController as EmployeeDashboardController;
 use App\Http\Controllers\Employee\AttendanceController;
 use App\Http\Controllers\Employee\LeaveController;
+use App\Http\Controllers\Employee\HolidayController as EmployeeHolidayController;
 
 // =====================================================
 
@@ -57,9 +61,14 @@ Route::middleware(['auth', 'role:Admin'])
 
         Route::resource('employees', EmployeeController::class);
 
-        Route::get('employees/{id}/status/{status}',
-            [EmployeeController::class, 'status'])
-            ->name('employees.status');
+        Route::resource(
+    'holidays',
+    \App\Http\Controllers\Admin\HolidayController::class
+);
+
+
+        Route::resource('holidays',
+    \App\Http\Controllers\Admin\HolidayController::class);
 
 
        Route::resource('leaves', \App\Http\Controllers\Admin\LeaveController::class)
@@ -106,6 +115,16 @@ Route::middleware(['auth', 'role:Manager'])
             [ManagerLeaveController::class, 'reject']
         )->name('leaves.reject');
 
+        Route::get(
+            'holidays',
+            [ManagerHolidayController::class, 'index']
+        )->name('holidays.index');
+
+        Route::get(
+    'profile',
+    [\App\Http\Controllers\Manager\ProfileController::class, 'index']
+)->name('profile');
+
     });
 
 
@@ -119,12 +138,31 @@ Route::middleware(['auth', 'role:Employee'])
         Route::get('/dashboard', [EmployeeDashboardController::class, 'index'])
             ->name('dashboard');
 
-        // Leave Management
-
         Route::resource('leaves', LeaveController::class)
-    ->parameters([
-        'leaves' => 'leave'
-    ]);
+            ->parameters([
+                'leaves' => 'leave'
+            ]);
+
+        Route::get(
+            'holidays',
+            [EmployeeHolidayController::class, 'index']
+        )->name('holidays.index');
+
+        Route::get(
+            'profile',
+            [\App\Http\Controllers\Employee\ProfileController::class, 'index']
+        )->name('profile');
+
+
+        Route::get(
+    'attendance-calendar',
+    [EmployeeDashboardController::class, 'calendar']
+)->name('calendar');
+
+Route::get(
+    'attendance-events',
+    [EmployeeDashboardController::class, 'calendarEvents']
+)->name('calendar.events');
 
     });
 
