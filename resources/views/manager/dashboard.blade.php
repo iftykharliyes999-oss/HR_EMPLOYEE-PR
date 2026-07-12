@@ -27,20 +27,16 @@
                 <div>
 
                     @if($manager->photo)
-
-                        <img src="{{ asset('uploads/employees/'.$manager->photo) }}"
-                             width="90"
-                             height="90"
-                             class="rounded-circle border border-3 border-white">
-
-                    @else
-
-                        <img src="{{ asset('assets/images/avatars/avatar-1.png') }}"
-                             width="90"
-                             height="90"
-                             class="rounded-circle border border-3 border-white">
-
-                    @endif
+    <img src="{{ asset('uploads/managers/'.$manager->photo) }}"
+         width="90"
+         height="90"
+         class="rounded-circle border border-3 border-white">
+@else
+    <img src="{{ asset('assets/images/avatars/avatar-1.png') }}"
+         width="90"
+         height="90"
+         class="rounded-circle border border-3 border-white">
+@endif
 
                 </div>
 
@@ -277,20 +273,16 @@
                 <div class="card-body text-center">
 
                     @if($manager->photo)
-
-                        <img src="{{ asset('uploads/employees/'.$manager->photo) }}"
-                             width="120"
-                             height="120"
-                             class="rounded-circle shadow">
-
-                    @else
-
-                        <img src="{{ asset('assets/images/avatars/avatar-1.png') }}"
-                             width="120"
-                             height="120"
-                             class="rounded-circle shadow">
-
-                    @endif
+    <img src="{{ asset('uploads/managers/'.$manager->photo) }}"
+         width="90"
+         height="90"
+         class="rounded-circle border border-3 border-white">
+@else
+    <img src="{{ asset('assets/images/avatars/avatar-1.png') }}"
+         width="90"
+         height="90"
+         class="rounded-circle border border-3 border-white">
+@endif
 
                     <h4 class="mt-3">
 
