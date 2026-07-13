@@ -58,6 +58,20 @@
         Holiday Management
     </a>
 </li>
+<li>
+    <a class="dropdown-item" href="{{ route('admin.notifications.index') }}">
+        <i class='bx bx-bell'></i>
+        Notice Board
+    </a>
+</li>
+
+<li>
+    <a class="dropdown-item" href="{{ route('admin.notifications.create') }}">
+        <i class='bx bx-plus-circle'></i>
+        Create Notice
+    </a>
+</li>
+
                             <li><a class="dropdown-item" href="{{ asset('') }}dashboard-digital-marketing.html"><i
                                         class='bx bx-bar-chart-alt-2'></i>Digital Marketing</a></li>
                             <li><a class="dropdown-item" href="{{ asset('') }}dashboard-human-resources.html"><i

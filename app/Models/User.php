@@ -8,6 +8,9 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Spatie\Permission\Traits\HasRoles;
 
+use App\Models\NotificationRead;
+use App\Models\Notification;
+
 class User extends Authenticatable
 {
     /** @use HasFactory<UserFactory> */
@@ -90,6 +93,23 @@ public function leaves()
 public function managedLeaves()
 {
     return $this->hasMany(Leave::class, 'manager_id');
+}
+
+
+/**
+ * Notifications created by this user.
+ */
+public function createdNotifications()
+{
+    return $this->hasMany(Notification::class, 'created_by');
+}
+
+/**
+ * Notifications read by this user.
+ */
+public function notificationReads()
+{
+    return $this->hasMany(NotificationRead::class);
 }
 
 

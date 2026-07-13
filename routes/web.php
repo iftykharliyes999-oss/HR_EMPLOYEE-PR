@@ -8,7 +8,7 @@ use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Admin\EmployeeController;
 use App\Http\Controllers\Admin\HolidayController;
 use App\Http\Controllers\Admin\ManagerController;
-
+use App\Http\Controllers\Admin\NotificationController;
 // ====================== Manager ======================
 use App\Http\Controllers\Manager\DashboardController as ManagerDashboardController;
 use App\Http\Controllers\Manager\LeaveController as ManagerLeaveController;
@@ -62,36 +62,42 @@ Route::middleware(['auth', 'role:Admin'])
         Route::resource('employees', EmployeeController::class);
 
         Route::get(
-    'employees/{id}/status/{status}',
-    [EmployeeController::class, 'status']
-)->name('employees.status');
+            'employees/{id}/status/{status}',
+            [EmployeeController::class, 'status']
+        )->name('employees.status');
 
         Route::resource(
-    'holidays',
-    \App\Http\Controllers\Admin\HolidayController::class
-);
+            'holidays',
+            \App\Http\Controllers\Admin\HolidayController::class
+        );
 
 
-        Route::resource('holidays',
-    \App\Http\Controllers\Admin\HolidayController::class);
+        Route::resource(
+            'holidays',
+            \App\Http\Controllers\Admin\HolidayController::class
+        );
 
 
-       Route::resource('leaves', \App\Http\Controllers\Admin\LeaveController::class)
-    ->parameters([
-        'leaves' => 'leave'
-    ]);
+        Route::resource('leaves', \App\Http\Controllers\Admin\LeaveController::class)
+            ->parameters([
+                'leaves' => 'leave'
+            ]);
 
-Route::patch(
-    'leaves/{leave}/approve',
-    [\App\Http\Controllers\Admin\LeaveController::class, 'approve']
-)->name('leaves.approve');
+        Route::patch(
+            'leaves/{leave}/approve',
+            [\App\Http\Controllers\Admin\LeaveController::class, 'approve']
+        )->name('leaves.approve');
 
-Route::patch(
-    'leaves/{leave}/reject',
-    [\App\Http\Controllers\Admin\LeaveController::class, 'reject']
-)->name('leaves.reject');
+        Route::patch(
+            'leaves/{leave}/reject',
+            [\App\Http\Controllers\Admin\LeaveController::class, 'reject']
+        )->name('leaves.reject');
+
+        Route::resource('notifications', NotificationController::class);
 
     });
+
+
 
 
 // ====================== Manager Routes ======================
@@ -126,9 +132,9 @@ Route::middleware(['auth', 'role:Manager'])
         )->name('holidays.index');
 
         Route::get(
-    'profile',
-    [\App\Http\Controllers\Manager\ProfileController::class, 'index']
-)->name('profile');
+            'profile',
+            [\App\Http\Controllers\Manager\ProfileController::class, 'index']
+        )->name('profile');
 
     });
 
@@ -160,14 +166,14 @@ Route::middleware(['auth', 'role:Employee'])
 
 
         Route::get(
-    'attendance-calendar',
-    [EmployeeDashboardController::class, 'calendar']
-)->name('calendar');
+            'attendance-calendar',
+            [EmployeeDashboardController::class, 'calendar']
+        )->name('calendar');
 
-Route::get(
-    'attendance-events',
-    [EmployeeDashboardController::class, 'calendarEvents']
-)->name('calendar.events');
+        Route::get(
+            'attendance-events',
+            [EmployeeDashboardController::class, 'calendarEvents']
+        )->name('calendar.events');
 
     });
 
@@ -176,14 +182,18 @@ Route::get(
 
 Route::middleware('auth')->group(function () {
 
-    Route::post('/attendance/clock-in',
-        [AttendanceController::class, 'clockIn'])
+    Route::post(
+        '/attendance/clock-in',
+        [AttendanceController::class, 'clockIn']
+    )
         ->name('attendance.clockin');
 
-    Route::post('/attendance/clock-out',
-        [AttendanceController::class, 'clockOut'])
+    Route::post(
+        '/attendance/clock-out',
+        [AttendanceController::class, 'clockOut']
+    )
         ->name('attendance.clockout');
 
 });
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
