@@ -61,6 +61,11 @@ Route::middleware(['auth', 'role:Admin'])
 
         Route::resource('employees', EmployeeController::class);
 
+        Route::get(
+    'employees/{id}/status/{status}',
+    [EmployeeController::class, 'status']
+)->name('employees.status');
+
         Route::resource(
     'holidays',
     \App\Http\Controllers\Admin\HolidayController::class
