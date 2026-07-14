@@ -1,598 +1,489 @@
 <header>
-			<div class="topbar d-flex align-items-center">
-				<nav class="navbar navbar-expand gap-3">
-					<div class="topbar-logo-header d-none d-lg-flex">
-						<div class="">
-							<img src="{{asset('')}}assets/images/logo-icon.png" class="logo-icon" alt="logo icon">
-						</div>
-						<div class="">
-							<h4 class="logo-text">TalentBridge Ltd</h4>
-						</div>
-					</div>
-					<div class="mobile-toggle-menu d-block d-lg-none" data-bs-toggle="offcanvas" data-bs-target="#offcanvasNavbar"><i class='bx bx-menu'></i></div>
-					<div class="search-bar flex-grow-1">
-						<div class="position-relative search-bar-box">
-							<input type="text" class="form-control search-control" placeholder="Type to search..."> <span class="position-absolute top-50 search-show translate-middle-y"><i class='bx bx-search'></i></span>
-							<span class="position-absolute top-50 search-close translate-middle-y"><i class='bx bx-x'></i></span>
-						</div>
-					</div>
-					  <div class="top-menu ms-auto">
-						<ul class="navbar-nav align-items-center gap-1">
-							<li class="nav-item mobile-search-icon d-flex d-lg-none" data-bs-toggle="modal" data-bs-target="#SearchModal">
-								<a class="nav-link" href="{{asset('')}}avascript:;"><i class='bx bx-search'></i>
-								</a>
-							</li>
-							<li class="nav-item dropdown dropdown-laungauge d-none d-sm-flex">
-								<a class="nav-link dropdown-toggle dropdown-toggle-nocaret" href="{{asset('')}}avascript:;" data-bs-toggle="dropdown"><img src="{{asset('')}}assets/images/county/02.png" width="22" alt="">
-								</a>
-								<ul class="dropdown-menu dropdown-menu-end">
-									<li><a class="dropdown-item d-flex align-items-center py-2" href="{{asset('')}}javascript:;"><img src="{{asset('')}}assets/images/county/01.png" width="20" alt=""><span class="ms-2">English</span></a>
-									</li>
-									<li><a class="dropdown-item d-flex align-items-center py-2" href="{{asset('')}}javascript:;"><img src="{{asset('')}}assets/images/county/02.png" width="20" alt=""><span class="ms-2">Catalan</span></a>
-									</li>
-									<li><a class="dropdown-item d-flex align-items-center py-2" href="{{asset('')}}javascript:;"><img src="{{asset('')}}assets/images/county/03.png" width="20" alt=""><span class="ms-2">French</span></a>
-									</li>
-									<li><a class="dropdown-item d-flex align-items-center py-2" href="{{asset('')}}javascript:;"><img src="{{asset('')}}assets/images/county/04.png" width="20" alt=""><span class="ms-2">Belize</span></a>
-									</li>
-									<li><a class="dropdown-item d-flex align-items-center py-2" href="{{asset('')}}javascript:;"><img src="{{asset('')}}assets/images/county/05.png" width="20" alt=""><span class="ms-2">Colombia</span></a>
-									</li>
-									<li><a class="dropdown-item d-flex align-items-center py-2" href="{{asset('')}}javascript:;"><img src="{{asset('')}}assets/images/county/06.png" width="20" alt=""><span class="ms-2">Spanish</span></a>
-									</li>
-									<li><a class="dropdown-item d-flex align-items-center py-2" href="{{asset('')}}javascript:;"><img src="{{asset('')}}assets/images/county/07.png" width="20" alt=""><span class="ms-2">Georgian</span></a>
-									</li>
-									<li><a class="dropdown-item d-flex align-items-center py-2" href="{{asset('')}}javascript:;"><img src="{{asset('')}}assets/images/county/08.png" width="20" alt=""><span class="ms-2">Hindi</span></a>
-									</li>
-								</ul>
-							</li>
-							<li class="nav-item dropdown dropdown-app">
-								<a class="nav-link dropdown-toggle dropdown-toggle-nocaret" data-bs-toggle="dropdown" href="{{asset('')}}javascript:;"><i class='bx bx-grid-alt'></i></a>
-								<div class="dropdown-menu dropdown-menu-end p-0">
-									<div class="app-container p-2 my-2">
-									  <div class="row gx-0 gy-2 row-cols-3 justify-content-center p-2">
-										 <div class="col">
-										  <a href="{{asset('')}}javascript:;">
-											<div class="app-box text-center">
-											  <div class="app-icon">
-												  <img src="{{asset('')}}assets/images/app/slack.png" width="30" alt="">
-											  </div>
-											  <div class="app-name">
-												  <p class="mb-0 mt-1">Slack</p>
-											  </div>
-											  </div>
-											</a>
-										 </div>
-										 <div class="col">
-										  <a href="{{asset('')}}javascript:;">
-											<div class="app-box text-center">
-											  <div class="app-icon">
-												  <img src="{{asset('')}}assets/images/app/behance.png" width="30" alt="">
-											  </div>
-											  <div class="app-name">
-												  <p class="mb-0 mt-1">Behance</p>
-											  </div>
-											  </div>
-										  </a>
-										 </div>
-										 <div class="col">
-										  <a href="{{asset('')}}javascript:;">
-											<div class="app-box text-center">
-											  <div class="app-icon">
-												<img src="{{asset('')}}assets/images/app/google-drive.png" width="30" alt="">
-											  </div>
-											  <div class="app-name">
-												  <p class="mb-0 mt-1">Dribble</p>
-											  </div>
-											  </div>
-											</a>
-										 </div>
-										 <div class="col">
-										  <a href="{{asset('')}}javascript:;">
-											<div class="app-box text-center">
-											  <div class="app-icon">
-												  <img src="{{asset('')}}assets/images/app/outlook.png" width="30" alt="">
-											  </div>
-											  <div class="app-name">
-												  <p class="mb-0 mt-1">Outlook</p>
-											  </div>
-											  </div>
-											</a>
-										 </div>
-										 <div class="col">
-										  <a href="{{asset('')}}javascript:;">
-											<div class="app-box text-center">
-											  <div class="app-icon">
-												  <img src="{{asset('')}}assets/images/app/github.png" width="30" alt="">
-											  </div>
-											  <div class="app-name">
-												  <p class="mb-0 mt-1">GitHub</p>
-											  </div>
-											  </div>
-											</a>
-										 </div>
-										 <div class="col">
-										  <a href="{{asset('')}}javascript:;">
-											<div class="app-box text-center">
-											  <div class="app-icon">
-												  <img src="{{asset('')}}assets/images/app/stack-overflow.png" width="30" alt="">
-											  </div>
-											  <div class="app-name">
-												  <p class="mb-0 mt-1">Stack</p>
-											  </div>
-											  </div>
-											</a>
-										 </div>
-										 <div class="col">
-										  <a href="{{asset('')}}javascript:;">
-											<div class="app-box text-center">
-											  <div class="app-icon">
-												  <img src="{{asset('')}}assets/images/app/figma.png" width="30" alt="">
-											  </div>
-											  <div class="app-name">
-												  <p class="mb-0 mt-1">Stack</p>
-											  </div>
-											  </div>
-											</a>
-										 </div>
-										 <div class="col">
-										  <a href="{{asset('')}}javascript:;">
-											<div class="app-box text-center">
-											  <div class="app-icon">
-												  <img src="{{asset('')}}assets/images/app/twitter.png" width="30" alt="">
-											  </div>
-											  <div class="app-name">
-												  <p class="mb-0 mt-1">Twitter</p>
-											  </div>
-											  </div>
-											</a>
-										 </div>
-										 <div class="col">
-										  <a href="{{asset('')}}javascript:;">
-											<div class="app-box text-center">
-											  <div class="app-icon">
-												  <img src="{{asset('')}}assets/images/app/google-calendar.png" width="30" alt="">
-											  </div>
-											  <div class="app-name">
-												  <p class="mb-0 mt-1">Calendar</p>
-											  </div>
-											  </div>
-											</a>
-										 </div>
-										 <div class="col">
-										  <a href="{{asset('')}}javascript:;">
-											<div class="app-box text-center">
-											  <div class="app-icon">
-												  <img src="{{asset('')}}assets/images/app/spotify.png" width="30" alt="">
-											  </div>
-											  <div class="app-name">
-												  <p class="mb-0 mt-1">Spotify</p>
-											  </div>
-											  </div>
-											</a>
-										 </div>
-										 <div class="col">
-										  <a href="{{asset('')}}javascript:;">
-											<div class="app-box text-center">
-											  <div class="app-icon">
-												  <img src="{{asset('')}}assets/images/app/google-photos.png" width="30" alt="">
-											  </div>
-											  <div class="app-name">
-												  <p class="mb-0 mt-1">Photos</p>
-											  </div>
-											  </div>
-											</a>
-										 </div>
-										 <div class="col">
-										  <a href="{{asset('')}}javascript:;">
-											<div class="app-box text-center">
-											  <div class="app-icon">
-												  <img src="{{asset('')}}assets/images/app/pinterest.png" width="30" alt="">
-											  </div>
-											  <div class="app-name">
-												  <p class="mb-0 mt-1">Photos</p>
-											  </div>
-											  </div>
-											</a>
-										 </div>
-										 <div class="col">
-										  <a href="{{asset('')}}javascript:;">
-											<div class="app-box text-center">
-											  <div class="app-icon">
-												  <img src="{{asset('')}}assets/images/app/linkedin.png" width="30" alt="">
-											  </div>
-											  <div class="app-name">
-												  <p class="mb-0 mt-1">linkedin</p>
-											  </div>
-											  </div>
-											</a>
-										 </div>
-										 <div class="col">
-										  <a href="{{asset('')}}javascript:;">
-											<div class="app-box text-center">
-											  <div class="app-icon">
-												  <img src="{{asset('')}}assets/images/app/dribble.png" width="30" alt="">
-											  </div>
-											  <div class="app-name">
-												  <p class="mb-0 mt-1">Dribble</p>
-											  </div>
-											  </div>
-											</a>
-										 </div>
-										 <div class="col">
-										  <a href="{{asset('')}}javascript:;">
-											<div class="app-box text-center">
-											  <div class="app-icon">
-												  <img src="{{asset('')}}assets/images/app/youtube.png" width="30" alt="">
-											  </div>
-											  <div class="app-name">
-												  <p class="mb-0 mt-1">YouTube</p>
-											  </div>
-											  </div>
-											</a>
-										 </div>
-										 <div class="col">
-										  <a href="{{asset('')}}javascript:;">
-											<div class="app-box text-center">
-											  <div class="app-icon">
-												  <img src="{{asset('')}}assets/images/app/google.png" width="30" alt="">
-											  </div>
-											  <div class="app-name">
-												  <p class="mb-0 mt-1">News</p>
-											  </div>
-											  </div>
-											</a>
-										 </div>
-										 <div class="col">
-										  <a href="{{asset('')}}javascript:;">
-											<div class="app-box text-center">
-											  <div class="app-icon">
-												  <img src="{{asset('')}}assets/images/app/envato.png" width="30" alt="">
-											  </div>
-											  <div class="app-name">
-												  <p class="mb-0 mt-1">Envato</p>
-											  </div>
-											  </div>
-											</a>
-										 </div>
-										 <div class="col">
-										  <a href="{{asset('')}}javascript:;">
-											<div class="app-box text-center">
-											  <div class="app-icon">
-												  <img src="{{asset('')}}assets/images/app/safari.png" width="30" alt="">
-											  </div>
-											  <div class="app-name">
-												  <p class="mb-0 mt-1">Safari</p>
-											  </div>
-											  </div>
-											</a>
-										 </div>
+    <div class="topbar d-flex align-items-center">
 
-									  </div><!--end row-->
+        <nav class="navbar navbar-expand gap-3 w-100">
 
-									</div>
-								</div>
-							</li>
+            {{-- Logo --}}
+            <div class="topbar-logo-header d-none d-lg-flex align-items-center">
 
-							<li class="nav-item dropdown dropdown-large">
+                <img src="{{ asset('assets/images/logo-icon.png') }}"
+                     class="logo-icon"
+                     alt="TalentBridge Logo">
 
-    <a class="nav-link dropdown-toggle dropdown-toggle-nocaret position-relative"
-       href="#"
-       data-bs-toggle="dropdown">
-
-        {{-- Unread Notification Count --}}
-        <span class="alert-count">0</span>
-
-        <i class='bx bx-bell'></i>
-
-    </a>
-
-    <div class="dropdown-menu dropdown-menu-end">
-
-        {{-- Header --}}
-        <div class="msg-header">
-            <p class="msg-header-title">
-                Company Notifications
-            </p>
-
-            <p class="msg-header-badge">
-                0 Unread
-            </p>
-        </div>
-
-        {{-- Notification List --}}
-        <div class="header-notifications-list">
-
-            {{-- Empty State --}}
-            <div class="text-center py-4">
-
-                <i class='bx bx-bell-off fs-1 text-secondary'></i>
-
-                <p class="mt-2 mb-0 fw-bold">
-                    No Notifications
-                </p>
-
-                <small class="text-muted">
-                    You're all caught up.
-                </small>
+                <h4 class="logo-text mb-0 ms-2">
+                    TalentBridge Ltd
+                </h4>
 
             </div>
 
-            {{-- Example Notification (Database connect করার পর ব্যবহার করবো)
+            {{-- Mobile Menu --}}
+            <div class="mobile-toggle-menu d-block d-lg-none"
+                 data-bs-toggle="offcanvas"
+                 data-bs-target="#offcanvasNavbar">
 
-            <a class="dropdown-item" href="#">
+                <i class="bx bx-menu"></i>
 
-                <div class="d-flex align-items-start">
+            </div>
 
-                    <div class="flex-shrink-0">
+            {{-- Search --}}
+            <div class="search-bar flex-grow-1">
 
-                        <span class="badge bg-danger">
-                            Urgent
-                        </span>
+                <div class="position-relative search-bar-box">
 
-                    </div>
+                    <input type="text"
+                           class="form-control search-control"
+                           placeholder="Search employees, managers, tasks...">
 
-                    <div class="flex-grow-1 ms-3">
+                    <span class="position-absolute top-50 search-show translate-middle-y">
+                        <i class="bx bx-search"></i>
+                    </span>
 
-                        <h6 class="mb-1">
-                            Office Meeting Tomorrow
-                        </h6>
-
-                        <small class="text-muted d-block">
-                            Tomorrow at 10:00 AM everyone must attend.
-                        </small>
-
-                        <small class="text-secondary">
-                            5 minutes ago
-                        </small>
-
-                    </div>
+                    <span class="position-absolute top-50 search-close translate-middle-y">
+                        <i class="bx bx-x"></i>
+                    </span>
 
                 </div>
 
-            </a>
+            </div>
 
-            --}}
+            @php
+                $adminUser = auth()->user();
 
-        </div>
+                $latestNotifications = \App\Models\Notification::query()
+                    ->where('status', 'Published')
+                    ->where(function ($query) {
+                        $query->whereNull('publish_at')
+                            ->orWhere('publish_at', '<=', now());
+                    })
+                    ->where(function ($query) {
+                        $query->whereNull('expire_at')
+                            ->orWhere('expire_at', '>=', now());
+                    })
+                    ->latest()
+                    ->take(5)
+                    ->get();
 
-        {{-- Footer --}}
-        <div class="text-center msg-footer">
+                $notificationCount = $latestNotifications->count();
 
-            <a href="{{ route('admin.notifications.index') }}"
-               class="btn btn-primary w-100">
+                $adminPhoto = $adminUser->photo
+                    ? asset('uploads/employees/' . $adminUser->photo)
+                    : asset('assets/images/avatars/avatar-1.png');
+            @endphp
 
-                View All Notifications
+            {{-- Right Menu --}}
+            <div class="top-menu ms-auto">
 
-            </a>
+                <ul class="navbar-nav align-items-center gap-2">
 
-        </div>
+                    {{-- Current Date --}}
+                    <li class="nav-item d-none d-xl-flex">
+
+                        <span class="badge bg-light text-dark border px-3 py-2">
+
+                            <i class="bx bx-calendar me-1"></i>
+
+                            {{ now()->format('d M Y') }}
+
+                        </span>
+
+                    </li>
+
+                    {{-- Quick Create --}}
+                    <li class="nav-item dropdown">
+
+                        <a class="nav-link dropdown-toggle dropdown-toggle-nocaret"
+                           href="#"
+                           data-bs-toggle="dropdown"
+                           aria-expanded="false">
+
+                            <i class="bx bx-plus-circle"></i>
+
+                        </a>
+
+                        <ul class="dropdown-menu dropdown-menu-end shadow-sm">
+
+                            <li>
+
+                                <h6 class="dropdown-header">
+                                    Quick Create
+                                </h6>
+
+                            </li>
+
+                            <li>
+
+                                <a class="dropdown-item d-flex align-items-center"
+                                   href="{{ route('admin.employees.create') }}">
+
+                                    <i class="bx bx-user-plus fs-5 me-2 text-primary"></i>
+
+                                    <span>Add Employee</span>
+
+                                </a>
+
+                            </li>
+
+                            <li>
+
+                                <a class="dropdown-item d-flex align-items-center"
+                                   href="{{ route('admin.managers.create') }}">
+
+                                    <i class="bx bx-group fs-5 me-2 text-success"></i>
+
+                                    <span>Add Manager</span>
+
+                                </a>
+
+                            </li>
+
+                            <li>
+
+                                <a class="dropdown-item d-flex align-items-center"
+                                   href="{{ route('admin.tasks.create') }}">
+
+                                    <i class="bx bx-task fs-5 me-2 text-warning"></i>
+
+                                    <span>Create Task</span>
+
+                                </a>
+
+                            </li>
+
+                            <li>
+
+                                <a class="dropdown-item d-flex align-items-center"
+                                   href="{{ route('admin.notifications.create') }}">
+
+                                    <i class="bx bx-bell-plus fs-5 me-2 text-danger"></i>
+
+                                    <span>Create Notification</span>
+
+                                </a>
+
+                            </li>
+
+                        </ul>
+
+                    </li>
+
+                    {{-- Notifications --}}
+                    <li class="nav-item dropdown dropdown-large">
+
+                        <a class="nav-link dropdown-toggle dropdown-toggle-nocaret position-relative"
+                           href="#"
+                           data-bs-toggle="dropdown"
+                           aria-expanded="false">
+
+                            @if($notificationCount > 0)
+
+                                <span class="alert-count">
+                                    {{ $notificationCount }}
+                                </span>
+
+                            @endif
+
+                            <i class="bx bx-bell"></i>
+
+                        </a>
+
+                        <div class="dropdown-menu dropdown-menu-end shadow">
+
+                            <div class="msg-header">
+
+                                <p class="msg-header-title mb-0">
+                                    Company Notifications
+                                </p>
+
+                                <p class="msg-header-badge mb-0">
+                                    {{ $notificationCount }} Active
+                                </p>
+
+                            </div>
+
+                            <div class="header-notifications-list">
+
+                                @forelse($latestNotifications as $notification)
+
+                                    <a class="dropdown-item"
+                                       href="{{ route('admin.notifications.show', $notification) }}">
+
+                                        <div class="d-flex align-items-start">
+
+                                            <div class="notify bg-light-primary text-primary flex-shrink-0">
+
+                                                @switch($notification->priority)
+
+                                                    @case('Urgent')
+                                                        <i class="bx bx-error-circle text-danger"></i>
+                                                        @break
+
+                                                    @case('Important')
+                                                        <i class="bx bx-info-circle text-warning"></i>
+                                                        @break
+
+                                                    @default
+                                                        <i class="bx bx-bell"></i>
+
+                                                @endswitch
+
+                                            </div>
+
+                                            <div class="flex-grow-1 ms-3">
+
+                                                <h6 class="msg-name mb-1">
+
+                                                    {{ \Illuminate\Support\Str::limit($notification->title, 32) }}
+
+                                                    <span class="msg-time float-end">
+
+                                                        {{ $notification->created_at->diffForHumans() }}
+
+                                                    </span>
+
+                                                </h6>
+
+                                                <p class="msg-info mb-1">
+
+                                                    {{ \Illuminate\Support\Str::limit($notification->message, 55) }}
+
+                                                </p>
+
+                                                <small>
+
+                                                    @switch($notification->priority)
+
+                                                        @case('Urgent')
+                                                            <span class="badge bg-danger">
+                                                                Urgent
+                                                            </span>
+                                                            @break
+
+                                                        @case('Important')
+                                                            <span class="badge bg-warning text-dark">
+                                                                Important
+                                                            </span>
+                                                            @break
+
+                                                        @default
+                                                            <span class="badge bg-success">
+                                                                Normal
+                                                            </span>
+
+                                                    @endswitch
+
+                                                </small>
+
+                                            </div>
+
+                                        </div>
+
+                                    </a>
+
+                                @empty
+
+                                    <div class="text-center py-5 px-3">
+
+                                        <i class="bx bx-bell-off display-5 text-muted"></i>
+
+                                        <h6 class="fw-bold mt-3 mb-1">
+                                            No notifications
+                                        </h6>
+
+                                        <small class="text-muted">
+                                            There are no active company notifications.
+                                        </small>
+
+                                    </div>
+
+                                @endforelse
+
+                            </div>
+
+                            <div class="text-center msg-footer">
+
+                                <a href="{{ route('admin.notifications.index') }}"
+                                   class="btn btn-primary w-100">
+
+                                    <i class="bx bx-list-ul me-1"></i>
+
+                                    View All Notifications
+
+                                </a>
+
+                            </div>
+
+                        </div>
+
+                    </li>
+
+                </ul>
+
+            </div>
+
+            {{-- Profile --}}
+            <div class="user-box dropdown px-3">
+
+                <a class="d-flex align-items-center nav-link dropdown-toggle gap-3 dropdown-toggle-nocaret"
+                   href="#"
+                   role="button"
+                   data-bs-toggle="dropdown"
+                   aria-expanded="false">
+
+                    <img src="{{ $adminPhoto }}"
+                         class="user-img rounded-circle"
+                         alt="{{ $adminUser->name }}">
+
+                    <div class="user-info d-none d-md-block">
+
+                        <p class="user-name mb-0">
+                            {{ $adminUser->name }}
+                        </p>
+
+                        <p class="designattion mb-0">
+                            {{ $adminUser->designation ?? 'Administrator' }}
+                        </p>
+
+                    </div>
+
+                </a>
+
+                <ul class="dropdown-menu dropdown-menu-end shadow">
+
+                    {{-- Profile Summary --}}
+                    <li>
+
+                        <div class="d-flex align-items-center p-3">
+
+                            <img src="{{ $adminPhoto }}"
+                                 width="58"
+                                 height="58"
+                                 class="rounded-circle object-fit-cover"
+                                 alt="{{ $adminUser->name }}">
+
+                            <div class="ms-3">
+
+                                <h6 class="fw-bold mb-1">
+                                    {{ $adminUser->name }}
+                                </h6>
+
+                                <small class="text-muted d-block">
+                                    {{ $adminUser->designation ?? 'Administrator' }}
+                                </small>
+
+                                <small class="text-primary">
+                                    {{ $adminUser->email }}
+                                </small>
+
+                            </div>
+
+                        </div>
+
+                    </li>
+
+                    <li>
+                        <hr class="dropdown-divider">
+                    </li>
+
+                    {{-- Dashboard --}}
+                    <li>
+
+                        <a class="dropdown-item d-flex align-items-center"
+                           href="{{ route('admin.dashboard') }}">
+
+                            <i class="bx bx-home-circle fs-5 me-2"></i>
+
+                            <span>Dashboard</span>
+
+                        </a>
+
+                    </li>
+
+                    {{-- Employees --}}
+                    <li>
+
+                        <a class="dropdown-item d-flex align-items-center"
+                           href="{{ route('admin.employees.index') }}">
+
+                            <i class="bx bx-group fs-5 me-2"></i>
+
+                            <span>Employees</span>
+
+                        </a>
+
+                    </li>
+
+                    {{-- Managers --}}
+                    <li>
+
+                        <a class="dropdown-item d-flex align-items-center"
+                           href="{{ route('admin.managers.index') }}">
+
+                            <i class="bx bx-user-check fs-5 me-2"></i>
+
+                            <span>Managers</span>
+
+                        </a>
+
+                    </li>
+
+                    {{-- Tasks --}}
+                    <li>
+
+                        <a class="dropdown-item d-flex align-items-center"
+                           href="{{ route('admin.tasks.index') }}">
+
+                            <i class="bx bx-task fs-5 me-2"></i>
+
+                            <span>Task Management</span>
+
+                        </a>
+
+                    </li>
+
+                    {{-- Notifications --}}
+                    <li>
+
+                        <a class="dropdown-item d-flex align-items-center"
+                           href="{{ route('admin.notifications.index') }}">
+
+                            <i class="bx bx-bell fs-5 me-2"></i>
+
+                            <span>Notifications</span>
+
+                        </a>
+
+                    </li>
+
+                    <li>
+                        <hr class="dropdown-divider">
+                    </li>
+
+                    {{-- Logout --}}
+                    <li>
+
+                        <form action="{{ route('logout') }}"
+                              method="POST">
+
+                            @csrf
+
+                            <button type="submit"
+                                    class="dropdown-item d-flex align-items-center text-danger">
+
+                                <i class="bx bx-log-out-circle fs-5 me-2"></i>
+
+                                <span>Logout</span>
+
+                            </button>
+
+                        </form>
+
+                    </li>
+
+                </ul>
+
+            </div>
+
+        </nav>
 
     </div>
-
-</li>
-							<li class="nav-item dropdown dropdown-large">
-								<a class="nav-link dropdown-toggle dropdown-toggle-nocaret position-relative" href="{{asset('')}}#" role="button" data-bs-toggle="dropdown" aria-expanded="false"> <span class="alert-count">8</span>
-									<i class='bx bx-shopping-bag'></i>
-								</a>
-								<div class="dropdown-menu dropdown-menu-end">
-									<a href="{{asset('')}}javascript:;">
-										<div class="msg-header">
-											<p class="msg-header-title">My Cart</p>
-											<p class="msg-header-badge">10 Items</p>
-										</div>
-									</a>
-									<div class="header-message-list">
-										<a class="dropdown-item" href="{{asset('')}}javascript:;">
-											<div class="d-flex align-items-center gap-3">
-												<div class="position-relative">
-													<div class="cart-product rounded-circle bg-light">
-														<img src="{{asset('')}}assets/images/products/11.png" class="" alt="product image">
-													</div>
-												</div>
-												<div class="flex-grow-1">
-													<h6 class="cart-product-title mb-0">Men White T-Shirt</h6>
-													<p class="cart-product-price mb-0">1 X $29.00</p>
-												</div>
-												<div class="">
-													<p class="cart-price mb-0">$250</p>
-												</div>
-												<div class="cart-product-cancel"><i class="bx bx-x"></i>
-												</div>
-											</div>
-										</a>
-										<a class="dropdown-item" href="{{asset('')}}javascript:;">
-											<div class="d-flex align-items-center gap-3">
-												<div class="position-relative">
-													<div class="cart-product rounded-circle bg-light">
-														<img src="{{asset('')}}assets/images/products/02.png" class="" alt="product image">
-													</div>
-												</div>
-												<div class="flex-grow-1">
-													<h6 class="cart-product-title mb-0">Men White T-Shirt</h6>
-													<p class="cart-product-price mb-0">1 X $29.00</p>
-												</div>
-												<div class="">
-													<p class="cart-price mb-0">$250</p>
-												</div>
-												<div class="cart-product-cancel"><i class="bx bx-x"></i>
-												</div>
-											</div>
-										</a>
-										<a class="dropdown-item" href="{{asset('')}}javascript:;">
-											<div class="d-flex align-items-center gap-3">
-												<div class="position-relative">
-													<div class="cart-product rounded-circle bg-light">
-														<img src="{{asset('')}}assets/images/products/03.png" class="" alt="product image">
-													</div>
-												</div>
-												<div class="flex-grow-1">
-													<h6 class="cart-product-title mb-0">Men White T-Shirt</h6>
-													<p class="cart-product-price mb-0">1 X $29.00</p>
-												</div>
-												<div class="">
-													<p class="cart-price mb-0">$250</p>
-												</div>
-												<div class="cart-product-cancel"><i class="bx bx-x"></i>
-												</div>
-											</div>
-										</a>
-										<a class="dropdown-item" href="{{asset('')}}javascript:;">
-											<div class="d-flex align-items-center gap-3">
-												<div class="position-relative">
-													<div class="cart-product rounded-circle bg-light">
-														<img src="{{asset('')}}assets/images/products/04.png" class="" alt="product image">
-													</div>
-												</div>
-												<div class="flex-grow-1">
-													<h6 class="cart-product-title mb-0">Men White T-Shirt</h6>
-													<p class="cart-product-price mb-0">1 X $29.00</p>
-												</div>
-												<div class="">
-													<p class="cart-price mb-0">$250</p>
-												</div>
-												<div class="cart-product-cancel"><i class="bx bx-x"></i>
-												</div>
-											</div>
-										</a>
-										<a class="dropdown-item" href="{{asset('')}}javascript:;">
-											<div class="d-flex align-items-center gap-3">
-												<div class="position-relative">
-													<div class="cart-product rounded-circle bg-light">
-														<img src="{{asset('')}}assets/images/products/05.png" class="" alt="product image">
-													</div>
-												</div>
-												<div class="flex-grow-1">
-													<h6 class="cart-product-title mb-0">Men White T-Shirt</h6>
-													<p class="cart-product-price mb-0">1 X $29.00</p>
-												</div>
-												<div class="">
-													<p class="cart-price mb-0">$250</p>
-												</div>
-												<div class="cart-product-cancel"><i class="bx bx-x"></i>
-												</div>
-											</div>
-										</a>
-										<a class="dropdown-item" href="{{asset('')}}javascript:;">
-											<div class="d-flex align-items-center gap-3">
-												<div class="position-relative">
-													<div class="cart-product rounded-circle bg-light">
-														<img src="{{asset('')}}assets/images/products/06.png" class="" alt="product image">
-													</div>
-												</div>
-												<div class="flex-grow-1">
-													<h6 class="cart-product-title mb-0">Men White T-Shirt</h6>
-													<p class="cart-product-price mb-0">1 X $29.00</p>
-												</div>
-												<div class="">
-													<p class="cart-price mb-0">$250</p>
-												</div>
-												<div class="cart-product-cancel"><i class="bx bx-x"></i>
-												</div>
-											</div>
-										</a>
-										<a class="dropdown-item" href="{{asset('')}}javascript:;">
-											<div class="d-flex align-items-center gap-3">
-												<div class="position-relative">
-													<div class="cart-product rounded-circle bg-light">
-														<img src="{{asset('')}}assets/images/products/07.png" class="" alt="product image">
-													</div>
-												</div>
-												<div class="flex-grow-1">
-													<h6 class="cart-product-title mb-0">Men White T-Shirt</h6>
-													<p class="cart-product-price mb-0">1 X $29.00</p>
-												</div>
-												<div class="">
-													<p class="cart-price mb-0">$250</p>
-												</div>
-												<div class="cart-product-cancel"><i class="bx bx-x"></i>
-												</div>
-											</div>
-										</a>
-										<a class="dropdown-item" href="{{asset('')}}javascript:;">
-											<div class="d-flex align-items-center gap-3">
-												<div class="position-relative">
-													<div class="cart-product rounded-circle bg-light">
-														<img src="{{asset('')}}assets/images/products/08.png" class="" alt="product image">
-													</div>
-												</div>
-												<div class="flex-grow-1">
-													<h6 class="cart-product-title mb-0">Men White T-Shirt</h6>
-													<p class="cart-product-price mb-0">1 X $29.00</p>
-												</div>
-												<div class="">
-													<p class="cart-price mb-0">$250</p>
-												</div>
-												<div class="cart-product-cancel"><i class="bx bx-x"></i>
-												</div>
-											</div>
-										</a>
-										<a class="dropdown-item" href="{{asset('')}}javascript:;">
-											<div class="d-flex align-items-center gap-3">
-												<div class="position-relative">
-													<div class="cart-product rounded-circle bg-light">
-														<img src="{{asset('')}}assets/images/products/09.png" class="" alt="product image">
-													</div>
-												</div>
-												<div class="flex-grow-1">
-													<h6 class="cart-product-title mb-0">Men White T-Shirt</h6>
-													<p class="cart-product-price mb-0">1 X $29.00</p>
-												</div>
-												<div class="">
-													<p class="cart-price mb-0">$250</p>
-												</div>
-												<div class="cart-product-cancel"><i class="bx bx-x"></i>
-												</div>
-											</div>
-										</a>
-									</div>
-									<a href="{{asset('')}}javascript:;">
-										<div class="text-center msg-footer">
-											<div class="d-flex align-items-center justify-content-between mb-3">
-												<h5 class="mb-0">Total</h5>
-												<h5 class="mb-0 ms-auto">$489.00</h5>
-											</div>
-											<button class="btn btn-primary w-100">Checkout</button>
-										</div>
-									</a>
-								</div>
-							</li>
-						</ul>
-					</div>
-					<div class="user-box dropdown px-3">
-						<a class="d-flex align-items-center nav-link dropdown-toggle gap-3 dropdown-toggle-nocaret" href="{{asset('')}}#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-							<img src="{{asset('')}}assets/images/avatars/avatar-2.png" class="user-img" alt="user avatar">
-							<div class="user-info">
-								<p class="user-name mb-0">Pauline Seitz</p>
-								<p class="designattion mb-0">Web Designer</p>
-							</div>
-						</a>
-						<ul class="dropdown-menu dropdown-menu-end">
-							<li><a class="dropdown-item d-flex align-items-center" href="{{asset('')}}javascript:;"><i class="bx bx-user fs-5"></i><span>Profile</span></a>
-							</li>
-							<li><a class="dropdown-item d-flex align-items-center" href="{{asset('')}}javascript:;"><i class="bx bx-cog fs-5"></i><span>Settings</span></a>
-							</li>
-							<li><a class="dropdown-item d-flex align-items-center" href="{{asset('')}}javascript:;"><i class="bx bx-home-circle fs-5"></i><span>Dashboard</span></a>
-							</li>
-							<li><a class="dropdown-item d-flex align-items-center" href="{{asset('')}}javascript:;"><i class="bx bx-dollar-circle fs-5"></i><span>Earnings</span></a>
-							</li>
-							<li><a class="dropdown-item d-flex align-items-center" href="{{asset('')}}javascript:;"><i class="bx bx-download fs-5"></i><span>Downloads</span></a>
-							</li>
-							<li>
-								<div class="dropdown-divider mb-0"></div>
-							</li>
-							<li>
-    <a class="dropdown-item d-flex align-items-center"
-       href="#"
-       onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
-        <i class="bx bx-log-out-circle"></i>
-        <span>Logout</span>
-    </a>
-
-    <form id="logout-form" action="{{ route('logout') }}" method="POST" class="d-none">
-        @csrf
-    </form>
-</li>
-						</ul>
-					</div>
-				</nav>
-			</div>
-		</header>
+</header>

@@ -69,6 +69,7 @@
 	<script src="{{asset('')}}assets/plugins/sparkline-charts/jquery.sparkline.min.js"></script>
 	<script src="{{asset('')}}assets/plugins/jquery-knob/excanvas.js"></script>
 	<script src="{{asset('')}}assets/plugins/jquery-knob/jquery.knob.js"></script>
+
 	  <script>
 		  $(function() {
 			  $(".knob").knob();

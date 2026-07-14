@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Models\Attendance;
 use Carbon\Carbon;
+use App\Models\Task;
+use Illuminate\Support\Facades\DB;
 
 
 class DashboardController extends Controller
@@ -100,6 +102,66 @@ $femaleEmployee = User::role('employee')
     ->where('gender', 'Female')
     ->count();
 
+
+$taskStats = [
+    'total' => Task::count(),
+
+    'completed' => Task::where('status', 'Completed')->count(),
+
+    'pending' => Task::where('status', 'Pending')->count(),
+
+    'progress' => Task::where('status', 'In Progress')->count(),
+
+    'overdue' => Task::where('status', '!=', 'Completed')
+        ->whereDate('due_date', '<', today())
+        ->count(),
+];
+
+$taskChart = [
+    $taskStats['completed'],
+    $taskStats['pending'],
+    $taskStats['progress'],
+    $taskStats['overdue'],
+];
+
+$topPerformer = Task::query()
+    ->select(
+        'employee_id',
+        DB::raw('COUNT(*) as total_tasks'),
+        DB::raw("
+            SUM(
+                CASE
+                    WHEN status = 'Completed' THEN 1
+                    ELSE 0
+                END
+            ) as completed_tasks
+        ")
+    )
+    ->whereNotNull('employee_id')
+    ->groupBy('employee_id')
+    ->with('employee')
+    ->get()
+    ->sortByDesc(function ($item) {
+        if ((int) $item->total_tasks === 0) {
+            return 0;
+        }
+
+        return (
+            (int) $item->completed_tasks /
+            (int) $item->total_tasks
+        ) * 100;
+    })
+    ->first();
+
+$recentTasks = Task::with([
+        'employee',
+        'manager',
+        'creator',
+    ])
+    ->latest()
+    ->take(5)
+    ->get();
+
         return view('admin.dashboard', compact(
 
     'totalEmployee',
@@ -118,7 +180,11 @@ $femaleEmployee = User::role('employee')
     'pendingEmployee',
     'newEmployeesThisMonth',
     'maleEmployee',
-    'femaleEmployee'
+    'femaleEmployee',
+    'taskStats',
+'taskChart',
+'topPerformer',
+'recentTasks',
 
 ));
 

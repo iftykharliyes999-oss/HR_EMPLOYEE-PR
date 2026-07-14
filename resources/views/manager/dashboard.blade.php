@@ -426,7 +426,422 @@
 
     </div>
 
+    <div class="row g-4 mb-4">
+
+    <div class="col-xl-4">
+
+        <div class="card border-0 shadow-sm h-100">
+
+            <div class="card-body">
+
+                <div class="d-flex justify-content-between align-items-center mb-3">
+
+                    <div>
+                        <h5 class="fw-bold mb-1">Top Performer</h5>
+                        <p class="text-muted mb-0">Best employee by completed tasks</p>
+                    </div>
+
+                    <div class="rounded-circle bg-light-warning text-warning p-3">
+                        <i class="bx bx-trophy fs-3"></i>
+                    </div>
+
+                </div>
+
+                @if($topPerformer && $topPerformer->employee)
+
+                    @php
+                        $topCompletionRate = $topPerformer->total > 0
+                            ? round(($topPerformer->completed / $topPerformer->total) * 100, 1)
+                            : 0;
+                    @endphp
+
+                    <div class="text-center py-3">
+
+                        <img
+                            src="{{ $topPerformer->employee->photo
+                                ? asset('uploads/employees/' . $topPerformer->employee->photo)
+                                : asset('assets/images/avatars/avatar-1.png') }}"
+                            width="88"
+                            height="88"
+                            class="rounded-circle object-fit-cover border border-3 border-white shadow-sm"
+                            alt="Top Performer">
+
+                        <h5 class="fw-bold mt-3 mb-1">
+                            {{ $topPerformer->employee->name }}
+                        </h5>
+
+                        <p class="text-muted mb-3">
+                            {{ $topPerformer->employee->designation ?? 'Employee' }}
+                        </p>
+
+                        <div class="row g-2">
+
+                            <div class="col-6">
+
+                                <div class="border rounded p-3">
+
+                                    <small class="text-muted d-block">
+                                        Completed
+                                    </small>
+
+                                    <h4 class="fw-bold text-success mb-0">
+                                        {{ $topPerformer->completed }}
+                                    </h4>
+
+                                </div>
+
+                            </div>
+
+                            <div class="col-6">
+
+                                <div class="border rounded p-3">
+
+                                    <small class="text-muted d-block">
+                                        Completion Rate
+                                    </small>
+
+                                    <h4 class="fw-bold text-primary mb-0">
+                                        {{ $topCompletionRate }}%
+                                    </h4>
+
+                                </div>
+
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                @else
+
+                    <div class="text-center py-5">
+
+                        <i class="bx bx-user-x display-5 text-muted"></i>
+
+                        <p class="text-muted mt-3 mb-0">
+                            No employee task data available.
+                        </p>
+
+                    </div>
+
+                @endif
+
+            </div>
+
+        </div>
+
+    </div>
+
+        <div class="col-xl-8">
+
+        <div class="card border-0 shadow-sm h-100">
+
+            <div class="card-body">
+
+                <div class="d-flex justify-content-between align-items-center mb-3">
+
+                    <div>
+                        <h5 class="fw-bold mb-1">Team Task Overview</h5>
+                        <p class="text-muted mb-0">
+                            Current task distribution across your team
+                        </p>
+                    </div>
+
+                    <div class="rounded-circle bg-light-primary text-primary p-3">
+                        <i class="bx bx-pie-chart-alt-2 fs-3"></i>
+                    </div>
+
+                </div>
+
+                <div id="managerTaskChart"></div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<div class="card border-0 shadow-sm mb-4">
+
+    <div class="card-header bg-transparent border-0 py-3">
+
+        <div class="d-flex justify-content-between align-items-center">
+
+            <div>
+                <h5 class="fw-bold mb-1">Employee Performance Ranking</h5>
+                <p class="text-muted mb-0">
+                    Ranked by completed task count
+                </p>
+            </div>
+
+            <i class="bx bx-bar-chart-alt-2 fs-3 text-primary"></i>
+
+        </div>
+
+    </div>
+
+    <div class="card-body pt-0">
+
+        <div class="table-responsive">
+
+            <table class="table table-hover align-middle mb-0">
+
+                <thead class="table-light">
+
+                    <tr>
+                        <th>Rank</th>
+                        <th>Employee</th>
+                        <th>Total Tasks</th>
+                        <th>Completed</th>
+                        <th>Pending</th>
+                        <th>Completion Rate</th>
+                        <th>Performance</th>
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    @forelse($employeeRanking as $ranking)
+
+                        @php
+                            $rankingRate = $ranking->total > 0
+                                ? round(($ranking->completed / $ranking->total) * 100, 1)
+                                : 0;
+
+                            $rankingPending = $ranking->total - $ranking->completed;
+                        @endphp
+
+                        <tr>
+
+                            <td>
+
+                                @if($loop->iteration === 1)
+
+                                    <span class="badge bg-warning text-dark px-3 py-2">
+                                        <i class="bx bx-trophy me-1"></i>
+                                        #1
+                                    </span>
+
+                                @elseif($loop->iteration === 2)
+
+                                    <span class="badge bg-secondary px-3 py-2">
+                                        #2
+                                    </span>
+
+                                @elseif($loop->iteration === 3)
+
+                                    <span class="badge bg-dark px-3 py-2">
+                                        #3
+                                    </span>
+
+                                @else
+
+                                    <span class="fw-semibold">
+                                        #{{ $loop->iteration }}
+                                    </span>
+
+                                @endif
+
+                            </td>
+
+                            <td>
+
+                                <div class="d-flex align-items-center gap-2">
+
+                                    <img
+                                        src="{{ $ranking->employee?->photo
+                                            ? asset('uploads/employees/' . $ranking->employee->photo)
+                                            : asset('assets/images/avatars/avatar-1.png') }}"
+                                        width="42"
+                                        height="42"
+                                        class="rounded-circle object-fit-cover"
+                                        alt="Employee">
+
+                                    <div>
+
+                                        <div class="fw-semibold">
+                                            {{ $ranking->employee->name ?? 'N/A' }}
+                                        </div>
+
+                                        <small class="text-muted">
+                                            {{ $ranking->employee->designation ?? 'Employee' }}
+                                        </small>
+
+                                    </div>
+
+                                </div>
+
+                            </td>
+
+                            <td>
+                                {{ $ranking->total }}
+                            </td>
+
+                            <td>
+                                <span class="text-success fw-semibold">
+                                    {{ $ranking->completed }}
+                                </span>
+                            </td>
+
+                            <td>
+                                <span class="text-warning fw-semibold">
+                                    {{ $rankingPending }}
+                                </span>
+                            </td>
+
+                            <td>
+                                {{ $rankingRate }}%
+                            </td>
+
+                            <td style="min-width: 180px;">
+
+                                <div class="progress"
+                                     style="height: 9px;">
+
+                                    <div
+                                        class="progress-bar"
+                                        role="progressbar"
+                                        style="width: {{ $rankingRate }}%;"
+                                        aria-valuenow="{{ $rankingRate }}"
+                                        aria-valuemin="0"
+                                        aria-valuemax="100">
+                                    </div>
+
+                                </div>
+
+                            </td>
+
+                        </tr>
+
+                    @empty
+
+                        <tr>
+
+                            <td colspan="7"
+                                class="text-center py-5">
+
+                                <i class="bx bx-bar-chart-square display-5 text-muted"></i>
+
+                                <p class="text-muted mt-3 mb-0">
+                                    No employee performance data available.
+                                </p>
+
+                            </td>
+
+                        </tr>
+
+                    @endforelse
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
 </div>
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+
+<script>
+document.addEventListener('DOMContentLoaded', function () {
+
+    const chartElement = document.querySelector('#managerTaskChart');
+
+    if (!chartElement) {
+        return;
+    }
+
+    const chartData = [
+        {{ $taskChart['completed'] }},
+        {{ $taskChart['pending'] }},
+        {{ $taskChart['progress'] }},
+        {{ $taskChart['overdue'] }}
+    ];
+
+    const totalTasks = chartData.reduce(function (total, value) {
+        return total + value;
+    }, 0);
+
+    const options = {
+        series: chartData,
+
+        chart: {
+            type: 'donut',
+            height: 350
+        },
+
+        labels: [
+            'Completed',
+            'Pending',
+            'In Progress',
+            'Overdue'
+        ],
+
+        legend: {
+            position: 'bottom',
+            fontSize: '14px'
+        },
+
+        dataLabels: {
+            enabled: true
+        },
+
+        stroke: {
+            width: 3
+        },
+
+        plotOptions: {
+            pie: {
+                donut: {
+                    size: '66%',
+
+                    labels: {
+                        show: true,
+
+                        total: {
+                            show: true,
+                            label: 'Total Tasks',
+                            formatter: function () {
+                                return totalTasks;
+                            }
+                        }
+                    }
+                }
+            }
+        },
+
+        noData: {
+            text: 'No task data available'
+        },
+
+        responsive: [
+            {
+                breakpoint: 576,
+                options: {
+                    chart: {
+                        height: 300
+                    },
+
+                    legend: {
+                        position: 'bottom'
+                    }
+                }
+            }
+        ]
+    };
+
+    const chart = new ApexCharts(chartElement, options);
+
+    chart.render();
+});
+</script>
 
 @endsection

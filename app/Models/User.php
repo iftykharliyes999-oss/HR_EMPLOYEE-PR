@@ -10,6 +10,7 @@ use Spatie\Permission\Traits\HasRoles;
 
 use App\Models\NotificationRead;
 use App\Models\Notification;
+use App\Models\Task;
 
 class User extends Authenticatable
 {
@@ -111,7 +112,29 @@ public function notificationReads()
 {
     return $this->hasMany(NotificationRead::class);
 }
+/**
+ * Assigned Tasks
+ */
+public function assignedTasks()
+{
+    return $this->hasMany(Task::class, 'employee_id');
+}
 
+/**
+ * Managed Tasks
+ */
+public function managedTasks()
+{
+    return $this->hasMany(Task::class, 'manager_id');
+}
+
+/**
+ * Created Tasks
+ */
+public function createdTasks()
+{
+    return $this->hasMany(Task::class, 'created_by');
+}
 
 
 

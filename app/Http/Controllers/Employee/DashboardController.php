@@ -7,6 +7,7 @@ use App\Models\Attendance;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Holiday;
+use App\Models\Task;
 
 class DashboardController extends Controller
 {
@@ -102,6 +103,25 @@ class DashboardController extends Controller
         )
         ->count();
 
+        $taskStats = [
+    'completed' => Task::where('employee_id', Auth::id())
+        ->where('status', 'Completed')
+        ->count(),
+
+    'pending' => Task::where('employee_id', Auth::id())
+        ->where('status', 'Pending')
+        ->count(),
+
+    'progress' => Task::where('employee_id', Auth::id())
+        ->where('status', 'In Progress')
+        ->count(),
+
+    'overdue' => Task::where('employee_id', Auth::id())
+        ->where('status', '!=', 'Completed')
+        ->whereDate('due_date', '<', today())
+        ->count(),
+];
+
         return view(
             'employee.dashboard',
             compact(
@@ -111,9 +131,12 @@ class DashboardController extends Controller
                 'late',
                 'absent',
                 'totalWorkingTime',
-                'monthlyAttendance'
+                'monthlyAttendance',
+                'taskStats'
             )
         );
+
+
     }
 
     /*

@@ -95,12 +95,14 @@ Route::middleware(['auth', 'role:Admin'])
 
         Route::resource('notifications', NotificationController::class);
 
+        Route::resource('tasks', \App\Http\Controllers\Admin\TaskController::class);
+
     });
 
 
 
 
-// ====================== Manager Routes ======================
+/// ====================== Manager Routes ======================
 
 Route::middleware(['auth', 'role:Manager'])
     ->prefix('manager')
@@ -136,8 +138,50 @@ Route::middleware(['auth', 'role:Manager'])
             [\App\Http\Controllers\Manager\ProfileController::class, 'index']
         )->name('profile');
 
-    });
+        // Notification
+        Route::get(
+            '/notifications/{notification}',
+            [\App\Http\Controllers\Admin\NotificationController::class, 'show']
+        )->name('notifications.show');
 
+        /*
+        |--------------------------------------------------------------------------
+        | Task Management
+        |--------------------------------------------------------------------------
+        */
+
+        Route::prefix('tasks')
+            ->name('tasks.')
+            ->group(function () {
+
+                Route::get(
+                    '/',
+                    [\App\Http\Controllers\Manager\TaskController::class, 'index']
+                )->name('index');
+
+                Route::get(
+                    '/create',
+                    [\App\Http\Controllers\Manager\TaskController::class, 'create']
+                )->name('create');
+
+                Route::post(
+                    '/',
+                    [\App\Http\Controllers\Manager\TaskController::class, 'store']
+                )->name('store');
+
+                Route::get(
+                    '/{task}',
+                    [\App\Http\Controllers\Manager\TaskController::class, 'show']
+                )->name('show');
+
+                Route::get(
+                    '/employee/{employee}',
+                    [\App\Http\Controllers\Manager\TaskController::class, 'employeeReport']
+                )->name('employee.report');
+
+            });
+
+    });
 
 // ====================== Employee Routes ======================
 
@@ -175,6 +219,27 @@ Route::middleware(['auth', 'role:Employee'])
             [EmployeeDashboardController::class, 'calendarEvents']
         )->name('calendar.events');
 
+       Route::get(
+    '/notifications/{notification}',
+    [\App\Http\Controllers\Admin\NotificationController::class, 'show']
+)->name('notifications.show');
+
+
+
+
+        Route::prefix('tasks')
+    ->name('tasks.')
+    ->group(function () {
+
+        Route::get('/', [\App\Http\Controllers\Employee\TaskController::class, 'index'])
+            ->name('index');
+
+        Route::get('/{task}', [\App\Http\Controllers\Employee\TaskController::class, 'show'])
+            ->name('show');
+
+        Route::post('/{task}/submit', [\App\Http\Controllers\Employee\TaskController::class, 'submit'])
+            ->name('submit');
+    });
     });
 
 

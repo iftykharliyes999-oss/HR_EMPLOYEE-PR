@@ -1,4 +1,13 @@
-@extends('admin.master')
+@php
+    $layout = match (true) {
+        auth()->user()->hasRole('Admin') => 'admin.master',
+        auth()->user()->hasRole('Manager') => 'manager.master',
+        auth()->user()->hasRole('Employee') => 'employee.master',
+        default => 'admin.master',
+    };
+@endphp
+
+@extends($layout)
 
 @section('content')
 
@@ -23,23 +32,23 @@
 
             <div>
 
-                <a href="{{ route('admin.notifications.edit', $notification) }}"
-                   class="btn btn-warning">
 
-                    <i class="bx bx-edit"></i>
 
-                    Edit
+                <a href="
+@if(auth()->user()->hasRole('Admin'))
+    {{ route('admin.notifications.index') }}
+@elseif(auth()->user()->hasRole('Manager'))
+    {{ route('manager.dashboard') }}
+@else
+    {{ route('employee.dashboard') }}
+@endif
+" class="btn btn-secondary">
 
-                </a>
+    <i class="bx bx-arrow-back"></i>
 
-                <a href="{{ route('admin.notifications.index') }}"
-                   class="btn btn-secondary">
+    Back
 
-                    <i class="bx bx-arrow-back"></i>
-
-                    Back
-
-                </a>
+</a>
 
             </div>
 
@@ -93,19 +102,24 @@
 
                 <div class="row mb-3">
 
-                    <div class="col-md-6">
 
-                        <strong>Audience</strong>
 
-                        <br>
+                    @if(auth()->user()->hasRole('Admin'))
 
-                        <span class="badge bg-info">
+<div class="col-md-6">
 
-                            {{ $notification->audience }}
+    <strong>Audience</strong>
 
-                        </span>
+    <br>
 
-                    </div>
+    <span class="badge bg-info">
+        {{ $notification->audience }}
+    </span>
+
+</div>
+
+@endif
+
 
                     <div class="col-md-6">
 
