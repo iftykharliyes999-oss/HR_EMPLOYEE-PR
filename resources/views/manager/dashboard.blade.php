@@ -117,6 +117,60 @@
 
     </div>
 
+    <div class="row row-cols-1 row-cols-md-2 row-cols-xl-5">
+
+    <div class="col">
+        <div class="card radius-10 border-start border-4 border-primary">
+            <div class="card-body">
+                <h3>{{ $todayPresent }}</h3>
+                <p class="mb-0">Present Today</p>
+                <i class="bx bx-check-circle fs-1 text-primary"></i>
+            </div>
+        </div>
+    </div>
+
+    <div class="col">
+        <div class="card radius-10 border-start border-4 border-warning">
+            <div class="card-body">
+                <h3>{{ $todayLate }}</h3>
+                <p class="mb-0">Late Today</p>
+                <i class="bx bx-time-five fs-1 text-warning"></i>
+            </div>
+        </div>
+    </div>
+
+    <div class="col">
+        <div class="card radius-10 border-start border-4 border-danger">
+            <div class="card-body">
+                <h3>{{ $todayAbsent }}</h3>
+                <p class="mb-0">Absent Today</p>
+                <i class="bx bx-user-x fs-1 text-danger"></i>
+            </div>
+        </div>
+    </div>
+
+    <div class="col">
+        <div class="card radius-10 border-start border-4 border-info">
+            <div class="card-body">
+                <h3>{{ $pendingClockInCount }}</h3>
+                <p class="mb-0">Clock-in Pending</p>
+                <i class="bx bx-log-in-circle fs-1 text-info"></i>
+            </div>
+        </div>
+    </div>
+
+    <div class="col">
+        <div class="card radius-10 border-start border-4 border-secondary">
+            <div class="card-body">
+                <h3>{{ $pendingClockOutCount }}</h3>
+                <p class="mb-0">Clock-out Pending</p>
+                <i class="bx bx-log-out-circle fs-1 text-secondary"></i>
+            </div>
+        </div>
+    </div>
+
+</div>
+
 
 
     <!-- Quick Actions -->
@@ -149,6 +203,328 @@
         </div>
 
     </div>
+
+    <div class="card radius-10">
+
+    <div class="card-header bg-white">
+        <div class="d-flex justify-content-between align-items-center">
+
+            <div>
+                <h5 class="mb-1">
+                    Pending Clock-in Approvals
+                </h5>
+
+                <small class="text-muted">
+                    Today’s employee clock-in requests
+                </small>
+            </div>
+
+            <span class="badge bg-warning text-dark">
+                {{ $pendingClockInCount }} Pending
+            </span>
+
+        </div>
+    </div>
+
+    <div class="card-body">
+
+        <div class="table-responsive">
+
+            <table class="table table-hover align-middle">
+
+                <thead class="table-light">
+
+                    <tr>
+                        <th>Employee</th>
+                        <th>Clock-in</th>
+                        <th>Status</th>
+                        <th>Late Minutes</th>
+                        <th>Action</th>
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    @forelse($pendingClockIns as $attendance)
+
+                        <tr>
+
+                            <td>
+                                <div class="d-flex align-items-center gap-2">
+
+                                    <img
+                                        src="{{ $attendance->user?->photo
+                                            ? asset('uploads/employees/' . $attendance->user->photo)
+                                            : asset('assets/images/avatars/avatar-1.png') }}"
+                                        width="42"
+                                        height="42"
+                                        class="rounded-circle object-fit-cover"
+                                        alt="Employee">
+
+                                    <div>
+                                        <div class="fw-semibold">
+                                            {{ $attendance->user->name ?? 'N/A' }}
+                                        </div>
+
+                                        <small class="text-muted">
+                                            {{ $attendance->user->designation ?? 'Employee' }}
+                                        </small>
+                                    </div>
+
+                                </div>
+                            </td>
+
+                            <td>
+                                {{ \Carbon\Carbon::parse($attendance->clock_in)
+                                    ->format('h:i A') }}
+                            </td>
+
+                            <td>
+                                @if($attendance->status === 'Present')
+                                    <span class="badge bg-success">
+                                        Present
+                                    </span>
+                                @elseif($attendance->status === 'Late')
+                                    <span class="badge bg-warning text-dark">
+                                        Late
+                                    </span>
+                                @else
+                                    <span class="badge bg-danger">
+                                        Absent
+                                    </span>
+                                @endif
+                            </td>
+
+                            <td>
+                                {{ (int) $attendance->late_minutes }} Minutes
+                            </td>
+
+                            <td>
+                                <div class="d-flex gap-2">
+
+                                    <form
+                                        method="POST"
+                                        action="{{ route(
+                                            'manager.attendance.clock-in.approve',
+                                            $attendance->id
+                                        ) }}">
+
+                                        @csrf
+                                        @method('PATCH')
+
+                                        <button
+                                            type="submit"
+                                            class="btn btn-sm btn-success">
+
+                                            <i class="bx bx-check"></i>
+                                            Approve
+
+                                        </button>
+                                    </form>
+
+                                    <form
+                                        method="POST"
+                                        action="{{ route(
+                                            'manager.attendance.clock-in.reject',
+                                            $attendance->id
+                                        ) }}">
+
+                                        @csrf
+                                        @method('PATCH')
+
+                                        <button
+                                            type="submit"
+                                            class="btn btn-sm btn-danger"
+                                            onclick="return confirm(
+                                                'Reject this clock-in request?'
+                                            )">
+
+                                            <i class="bx bx-x"></i>
+                                            Reject
+
+                                        </button>
+                                    </form>
+
+                                </div>
+                            </td>
+
+                        </tr>
+
+                    @empty
+
+                        <tr>
+                            <td colspan="5" class="text-center py-4">
+
+                                <i class="bx bx-check-circle fs-1 text-success"></i>
+
+                                <p class="text-muted mt-2 mb-0">
+                                    No pending clock-in approval.
+                                </p>
+
+                            </td>
+                        </tr>
+
+                    @endforelse
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
+<div class="card radius-10">
+
+    <div class="card-header bg-white">
+
+        <div class="d-flex justify-content-between align-items-center">
+
+            <div>
+                <h5 class="mb-1">
+                    Pending Clock-out Approvals
+                </h5>
+
+                <small class="text-muted">
+                    Today’s employee clock-out requests
+                </small>
+            </div>
+
+            <span class="badge bg-secondary">
+                {{ $pendingClockOutCount }} Pending
+            </span>
+
+        </div>
+
+    </div>
+
+    <div class="card-body">
+
+        <div class="table-responsive">
+
+            <table class="table table-hover align-middle">
+
+                <thead class="table-light">
+
+                    <tr>
+                        <th>Employee</th>
+                        <th>Clock-in</th>
+                        <th>Clock-out</th>
+                        <th>Working Hours</th>
+                        <th>Action</th>
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    @forelse($pendingClockOuts as $attendance)
+
+                        <tr>
+
+                            <td>
+                                {{ $attendance->user->name ?? 'N/A' }}
+                            </td>
+
+                            <td>
+                                {{ \Carbon\Carbon::parse(
+                                    $attendance->clock_in
+                                )->format('h:i A') }}
+                            </td>
+
+                            <td>
+                                {{ \Carbon\Carbon::parse(
+                                    $attendance->clock_out
+                                )->format('h:i A') }}
+                            </td>
+
+                            <td>
+                                {{ $attendance->working_hours ?? 'N/A' }}
+                            </td>
+
+                            <td>
+
+                                <div class="d-flex gap-2">
+
+                                    <form
+                                        method="POST"
+                                        action="{{ route(
+                                            'manager.attendance.clock-out.approve',
+                                            $attendance->id
+                                        ) }}">
+
+                                        @csrf
+                                        @method('PATCH')
+
+                                        <button
+                                            type="submit"
+                                            class="btn btn-sm btn-success">
+
+                                            <i class="bx bx-check"></i>
+                                            Approve
+
+                                        </button>
+
+                                    </form>
+
+                                    <form
+                                        method="POST"
+                                        action="{{ route(
+                                            'manager.attendance.clock-out.reject',
+                                            $attendance->id
+                                        ) }}">
+
+                                        @csrf
+                                        @method('PATCH')
+
+                                        <button
+                                            type="submit"
+                                            class="btn btn-sm btn-danger"
+                                            onclick="return confirm(
+                                                'Reject this clock-out request?'
+                                            )">
+
+                                            <i class="bx bx-x"></i>
+                                            Reject
+
+                                        </button>
+
+                                    </form>
+
+                                </div>
+
+                            </td>
+
+                        </tr>
+
+                    @empty
+
+                        <tr>
+                            <td colspan="5" class="text-center py-4">
+
+                                <i class="bx bx-check-circle fs-1 text-success"></i>
+
+                                <p class="text-muted mt-2 mb-0">
+                                    No pending clock-out approval.
+                                </p>
+
+                            </td>
+                        </tr>
+
+                    @endforelse
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
 
 
 

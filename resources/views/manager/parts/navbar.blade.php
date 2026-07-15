@@ -65,6 +65,45 @@
 
                     </li>
 
+           <li class="nav-item">
+
+    <a class="nav-link"
+       href="{{ route('manager.attendance.index') }}">
+
+        <i class="bx bx-calendar-check"></i>
+
+        Team Attendance
+
+    </a>
+
+</li>
+
+<li class="nav-item">
+
+    <a class="nav-link"
+       href="{{ route('manager.salary.index') }}">
+
+        <i class="bx bx-wallet"></i>
+
+        My Salary
+
+    </a>
+
+</li>
+
+<li class="nav-item">
+
+    <a
+        class="nav-link {{ request()->routeIs('manager.loans.*') ? 'active' : '' }}"
+        href="{{ route('manager.loans.index') }}">
+
+        <i class="bx bx-money-withdraw"></i>
+
+        <span>Loan Request</span>
+
+    </a>
+
+</li>
                     {{-- Profile --}}
                     <li class="nav-item">
 

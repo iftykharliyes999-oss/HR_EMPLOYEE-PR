@@ -154,7 +154,7 @@
                                     Not Clocked In Yet
                                 </h4>
 
-                                <form method="POST" action="{{ route('attendance.clockin') }}">
+                                <form method="POST" action="{{ route('employee.attendance.clockin') }}">
 
                                     @csrf
 
@@ -179,7 +179,7 @@
 
                             </div>
 
-                            <form method="POST" action="{{ route('attendance.clockout') }}">
+                            <form method="POST" action="{{ route('employee.attendance.clockout') }}">
 
                                 @csrf
 
@@ -438,6 +438,20 @@
                             </a>
 
                         </div>
+
+                        <div class="col-md-4">
+
+    <a
+        href="{{ route('employee.salary.index') }}"
+        class="btn btn-outline-success w-100">
+
+        <i class="bx bx-wallet"></i>
+
+        My Salary
+
+    </a>
+
+</div>
 
                     </div>
 

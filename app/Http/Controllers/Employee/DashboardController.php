@@ -4,123 +4,149 @@ namespace App\Http\Controllers\Employee;
 
 use App\Http\Controllers\Controller;
 use App\Models\Attendance;
-use Carbon\Carbon;
-use Illuminate\Support\Facades\Auth;
 use App\Models\Holiday;
 use App\Models\Task;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Auth;
 
 class DashboardController extends Controller
 {
+    /*
+    |--------------------------------------------------------------------------
+    | Employee Dashboard
+    |--------------------------------------------------------------------------
+    */
+
     public function index()
     {
         $employee = Auth::user();
 
-        $todayAttendance = Attendance::where(
-            'user_id',
-            $employee->id
-        )
-        ->whereDate('date', Carbon::today())
-        ->first();
+        $employeeId = $employee->getKey();
 
-        $present = Attendance::where(
-            'user_id',
-            $employee->id
-        )
-        ->where('status', 'Present')
-        ->count();
+        $now = Carbon::now('Asia/Dhaka');
 
-        $late = Attendance::where(
-            'user_id',
-            $employee->id
-        )
-        ->where('status', 'Late')
-        ->count();
+        $today = $now->toDateString();
 
-        $joiningDate = Carbon::parse(
-            $employee->joining_date
-        );
+        /*
+        |--------------------------------------------------------------------------
+        | Today's Attendance
+        |--------------------------------------------------------------------------
+        */
 
-        $totalDays = $joiningDate->diffInDays(
-            Carbon::today()
-        ) + 1;
+        $todayAttendance = Attendance::query()
+            ->where('user_id', $employeeId)
+            ->whereDate('date', $today)
+            ->first();
 
-        $attendanceDays = Attendance::where(
-            'user_id',
-            $employee->id
-        )->count();
+        /*
+        |--------------------------------------------------------------------------
+        | Attendance Statistics
+        |--------------------------------------------------------------------------
+        */
 
-        $absent = max(
-            0,
-            $totalDays - $attendanceDays
-        );
+        $present = Attendance::query()
+            ->where('user_id', $employeeId)
+            ->where('status', 'Present')
+            ->count();
 
-        $totalMinutes = 0;
+        $late = Attendance::query()
+            ->where('user_id', $employeeId)
+            ->where('status', 'Late')
+            ->count();
 
-        $attendances = Attendance::where(
-            'user_id',
-            $employee->id
-        )
-        ->whereNotNull('working_hours')
-        ->get();
+        $absent = Attendance::query()
+            ->where('user_id', $employeeId)
+            ->where('status', 'Absent')
+            ->count();
 
-        foreach ($attendances as $attendance) {
+        /*
+        |--------------------------------------------------------------------------
+        | Total Working Time
+        |--------------------------------------------------------------------------
+        */
 
-            if (
-                $attendance->working_hours &&
-                str_contains(
-                    $attendance->working_hours,
-                    ':'
-                )
-            ) {
+        $totalMinutes = Attendance::query()
+            ->where('user_id', $employeeId)
+            ->whereNotNull('working_hours')
+            ->get(['working_hours'])
+            ->sum(function (Attendance $attendance) {
 
-                [$hour, $minute] = explode(
-                    ':',
-                    $attendance->working_hours
+                if (
+                    !$attendance->working_hours
+                    || !str_contains(
+                        $attendance->working_hours,
+                        ':'
+                    )
+                ) {
+                    return 0;
+                }
+
+                [$hours, $minutes] = array_pad(
+                    explode(
+                        ':',
+                        $attendance->working_hours
+                    ),
+                    2,
+                    0
                 );
 
-                $totalMinutes +=
-                    ($hour * 60) + $minute;
-            }
-        }
+                return ((int) $hours * 60)
+                    + (int) $minutes;
+            });
 
-        $workingHours =
-            floor($totalMinutes / 60);
+        $workingHours = intdiv(
+            (int) $totalMinutes,
+            60
+        );
 
-        $workingMinutes =
-            $totalMinutes % 60;
+        $workingMinutes = (int) $totalMinutes % 60;
 
-        $totalWorkingTime =
-            $workingHours . 'h ' .
-            $workingMinutes . 'm';
+        $totalWorkingTime = sprintf(
+            '%dh %02dm',
+            $workingHours,
+            $workingMinutes
+        );
 
-        $monthlyAttendance = Attendance::where(
-            'user_id',
-            $employee->id
-        )
-        ->whereMonth(
-            'date',
-            Carbon::now()->month
-        )
-        ->count();
+        /*
+        |--------------------------------------------------------------------------
+        | Current Month Attendance
+        |--------------------------------------------------------------------------
+        */
+
+        $monthlyAttendance = Attendance::query()
+            ->where('user_id', $employeeId)
+            ->whereMonth('date', $now->month)
+            ->whereYear('date', $now->year)
+            ->count();
+
+        /*
+        |--------------------------------------------------------------------------
+        | Task Statistics
+        |--------------------------------------------------------------------------
+        */
 
         $taskStats = [
-    'completed' => Task::where('employee_id', Auth::id())
-        ->where('status', 'Completed')
-        ->count(),
+            'completed' => Task::query()
+                ->where('employee_id', $employeeId)
+                ->where('status', 'Completed')
+                ->count(),
 
-    'pending' => Task::where('employee_id', Auth::id())
-        ->where('status', 'Pending')
-        ->count(),
+            'pending' => Task::query()
+                ->where('employee_id', $employeeId)
+                ->where('status', 'Pending')
+                ->count(),
 
-    'progress' => Task::where('employee_id', Auth::id())
-        ->where('status', 'In Progress')
-        ->count(),
+            'progress' => Task::query()
+                ->where('employee_id', $employeeId)
+                ->where('status', 'In Progress')
+                ->count(),
 
-    'overdue' => Task::where('employee_id', Auth::id())
-        ->where('status', '!=', 'Completed')
-        ->whereDate('due_date', '<', today())
-        ->count(),
-];
+            'overdue' => Task::query()
+                ->where('employee_id', $employeeId)
+                ->where('status', '!=', 'Completed')
+                ->whereDate('due_date', '<', $today)
+                ->count(),
+        ];
 
         return view(
             'employee.dashboard',
@@ -135,8 +161,6 @@ class DashboardController extends Controller
                 'taskStats'
             )
         );
-
-
     }
 
     /*
@@ -156,63 +180,95 @@ class DashboardController extends Controller
     |--------------------------------------------------------------------------
     */
 
-   public function calendarEvents()
-{
-    $employee = Auth::user();
+    public function calendarEvents()
+    {
+        $employeeId = Auth::id();
 
-    $events = [];
+        $events = [];
 
-    // Attendance
+        /*
+        |--------------------------------------------------------------------------
+        | Attendance Events
+        |--------------------------------------------------------------------------
+        */
 
-    $attendances = Attendance::where(
-        'user_id',
-        $employee->id
-    )->get();
+        $attendances = Attendance::query()
+            ->where('user_id', $employeeId)
+            ->get();
 
-    foreach ($attendances as $attendance) {
+        foreach ($attendances as $attendance) {
 
-        $color = '#28a745';
+            $color = match ($attendance->status) {
+                'Present' => '#28a745',
+                'Late' => '#ffc107',
+                'Absent' => '#dc3545',
+                'Leave' => '#0dcaf0',
+                'Holiday' => '#0d6efd',
+                default => '#6c757d',
+            };
 
-        if ($attendance->status == 'Late') {
-            $color = '#ffc107';
+            $events[] = [
+                'title' => $attendance->status,
+                'start' => Carbon::parse(
+                    $attendance->date
+                )->toDateString(),
+
+                'allDay' => true,
+                'color' => $color,
+
+                'extendedProps' => [
+                    'clock_in' =>
+                        $attendance->clock_in,
+
+                    'clock_out' =>
+                        $attendance->clock_out,
+
+                    'working_hours' =>
+                        $attendance->working_hours,
+
+                    'clock_in_approval' =>
+                        $attendance
+                            ->clock_in_approval_status,
+
+                    'clock_out_approval' =>
+                        $attendance
+                            ->clock_out_approval_status,
+                ],
+            ];
         }
 
-        $events[] = [
+        /*
+        |--------------------------------------------------------------------------
+        | Holiday Events
+        |--------------------------------------------------------------------------
+        */
 
-            'title' => $attendance->status,
+        $holidays = Holiday::query()
+            ->where('status', 'Active')
+            ->get();
 
-            'start' => $attendance->date,
+        foreach ($holidays as $holiday) {
 
-            'color' => $color,
+            $events[] = [
+                'title' =>
+                    'Holiday - ' . $holiday->title,
 
-        ];
+                'start' => Carbon::parse(
+                    $holiday->start_date
+                )->toDateString(),
+
+                // FullCalendar-এর end date exclusive।
+                'end' => Carbon::parse(
+                    $holiday->end_date
+                )
+                    ->addDay()
+                    ->toDateString(),
+
+                'allDay' => true,
+                'color' => '#0d6efd',
+            ];
+        }
+
+        return response()->json($events);
     }
-
-
-    // Holidays
-
-    $holidays = Holiday::where(
-        'status',
-        'Active'
-    )->get();
-
-    foreach ($holidays as $holiday) {
-
-        $events[] = [
-
-            'title' => 'Holiday - '.$holiday->title,
-
-            'start' => $holiday->start_date,
-
-            'end' => Carbon::parse(
-                $holiday->end_date
-            )->addDay(),
-
-            'color' => '#0d6efd',
-
-        ];
-    }
-
-    return response()->json($events);
-}
 }

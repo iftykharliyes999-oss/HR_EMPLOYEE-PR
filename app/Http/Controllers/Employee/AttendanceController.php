@@ -4,85 +4,109 @@ namespace App\Http\Controllers\Employee;
 
 use App\Http\Controllers\Controller;
 use App\Models\Attendance;
+use App\Services\AttendanceService;
 use Carbon\Carbon;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Auth;
 
 class AttendanceController extends Controller
 {
-
-    public function clockIn()
-    {
-        $user = Auth::user();
-
-
-        $attendance = Attendance::where('user_id', $user->id)
-            ->whereDate('date', today())
-            ->first();
-
-        if ($attendance) {
-            return back()->with('error', 'Already Clock In Done');
-        }
-
-        $now = Carbon::now();
-
-
-        $status = $now->format('H:i') > '09:15'
-            ? 'Late'
-            : 'Present';
-
-        Attendance::create([
-            'user_id'   => $user->id,
-            'date'      => today(),
-            'clock_in'  => $now->format('H:i:s'),
-            'status'    => $status,
-        ]);
-
-        return back()->with('success', 'Clock In Successfully');
+    public function __construct(
+        private readonly AttendanceService $attendanceService
+    ) {
     }
 
-
-
-    public function clockOut()
+    public function clockIn(): RedirectResponse
     {
         $user = Auth::user();
 
-        $attendance = Attendance::where('user_id', $user->id)
-            ->whereDate('date', today())
+        $todayAttendance = Attendance::query()
+            ->where('user_id', $user->id)
+            ->whereDate('date', now('Asia/Dhaka')->toDateString())
+            ->first();
+
+        if ($todayAttendance) {
+            return back()->with(
+                'error',
+                'You have already clocked in today.'
+            );
+        }
+
+        $now = Carbon::now('Asia/Dhaka');
+
+        $calculated = $this->attendanceService
+            ->calculateStatus($now);
+
+        Attendance::create([
+            'user_id' => $user->id,
+
+            // এটি তোমার actual relationship অনুযায়ী বদলাতে হবে
+            'manager_id' => $user->manager_id ?? null,
+
+            'date' => $now->toDateString(),
+            'clock_in' => $now->format('H:i:s'),
+
+            'status' => $calculated['status'],
+            'late_minutes' => $calculated['late_minutes'],
+
+            'clock_in_approval_status' => 'Pending',
+            'clock_out_approval_status' => 'Not Submitted',
+        ]);
+
+        return back()->with(
+            'success',
+            'Clock-in submitted for manager approval.'
+        );
+    }
+
+    public function clockOut(): RedirectResponse
+    {
+        $user = Auth::user();
+        $now = Carbon::now('Asia/Dhaka');
+
+        $attendance = Attendance::query()
+            ->where('user_id', $user->id)
+            ->whereDate('date', $now->toDateString())
             ->first();
 
         if (!$attendance) {
-            return back()->with('error', 'Please Clock In First');
+            return back()->with(
+                'error',
+                'Please clock in first.'
+            );
         }
-
 
         if ($attendance->clock_out) {
-            return back()->with('error', 'Already Clock Out Done');
+            return back()->with(
+                'error',
+                'You have already clocked out today.'
+            );
         }
 
-        $clockOut = Carbon::now();
-        $clockIn = Carbon::parse($attendance->clock_in);
+        if (
+            $attendance->clock_in_approval_status === 'Rejected'
+        ) {
+            return back()->with(
+                'error',
+                'Your clock-in was rejected.'
+            );
+        }
 
-
-        $minutes = $clockIn->diffInMinutes($clockOut);
-
-$hours = floor($minutes / 60);
-
-$remainingMinutes = $minutes % 60;
-
-$workingHours = sprintf(
-    '%d:%02d',
-    $hours,
-    $remainingMinutes
-);
-
-        // Format: 0.30 / 1.00 / 8.45
-        $workingHours = sprintf('%d.%02d', $hours, $minutes);
+        $workingHours = $this->attendanceService
+            ->calculateWorkingHours(
+                $attendance->clock_in,
+                $now
+            );
 
         $attendance->update([
-            'clock_out'     => $clockOut->format('H:i:s'),
+            'clock_out' => $now->format('H:i:s'),
             'working_hours' => $workingHours,
+            'clock_out_approval_status' => 'Pending',
         ]);
 
-        return back()->with('success', 'Clock Out Successfully');
+        return back()->with(
+            'success',
+            'Clock-out submitted for manager approval.'
+        );
     }
 }

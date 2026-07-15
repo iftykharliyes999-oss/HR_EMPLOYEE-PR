@@ -196,6 +196,46 @@
 
                     </li>
 
+                    <li class="nav-item">
+
+    <a class="nav-link"
+       href="{{ route('admin.attendance.index') }}">
+
+        <i class="bx bx-time-five"></i>
+
+        Employee Attendance
+
+    </a>
+
+</li>
+
+<li class="nav-item">
+
+    <a
+        class="nav-link"
+        href="{{ route('admin.loans.index') }}">
+
+        <i class="bx bx-credit-card"></i>
+        Loan Requests
+
+    </a>
+
+</li>
+
+
+<li class="nav-item">
+
+    <a class="nav-link"
+       href="{{ route('admin.payroll.index') }}">
+
+        <i class="bx bx-wallet"></i>
+
+        Payroll
+
+    </a>
+
+</li>
+
                 </ul>
 
             </div>

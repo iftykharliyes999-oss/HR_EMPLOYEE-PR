@@ -892,6 +892,187 @@
 
         </div>
 
+
+        {{-- Today Absent Employees --}}
+<div class="card border-0 shadow-sm radius-10 mb-4">
+
+    <div class="card-header bg-transparent border-0 py-3">
+
+        <div class="d-flex flex-wrap justify-content-between align-items-center gap-2">
+
+            <div>
+                <h5 class="fw-bold mb-1">
+                    Today’s Absent Employees
+                </h5>
+
+                <p class="text-muted mb-0">
+                    Employees who did not clock in or arrived after the absent cutoff.
+                </p>
+            </div>
+
+            <span class="badge bg-danger px-3 py-2">
+                {{ $absentToday }} Absent
+            </span>
+
+        </div>
+
+    </div>
+
+    <div class="card-body pt-0">
+
+        <div class="table-responsive">
+
+            <table class="table table-hover align-middle mb-0">
+
+                <thead class="table-light">
+
+                    <tr>
+                        <th>Employee</th>
+                        <th>Department</th>
+                        <th>Manager</th>
+                        <th>Clock In</th>
+                        <th>Reason</th>
+                        <th>Details</th>
+                    </tr>
+
+                </thead>
+
+                <tbody>
+
+                    @forelse($absentEmployees as $row)
+
+                        @php
+                            $employee = $row['employee'];
+                            $attendance = $row['attendance'];
+
+                            $manager = $employee->manager_id
+                                ? \App\Models\User::find($employee->manager_id)
+                                : null;
+                        @endphp
+
+                        <tr>
+
+                            <td>
+
+                                <div class="d-flex align-items-center gap-2">
+
+                                    <img
+                                        src="{{ $employee->photo
+                                            ? asset('uploads/employees/' . $employee->photo)
+                                            : asset('assets/images/avatars/avatar-1.png') }}"
+                                        width="42"
+                                        height="42"
+                                        class="rounded-circle object-fit-cover"
+                                        alt="Employee">
+
+                                    <div>
+
+                                        <div class="fw-semibold">
+                                            {{ $employee->name }}
+                                        </div>
+
+                                        <small class="text-muted">
+                                            {{ $employee->designation ?? 'Employee' }}
+                                        </small>
+
+                                    </div>
+
+                                </div>
+
+                            </td>
+
+                            <td>
+                                {{ $employee->department ?? 'Not Assigned' }}
+                            </td>
+
+                            <td>
+                                {{ $manager?->name ?? 'Not Assigned' }}
+                            </td>
+
+                            <td>
+
+                                @if($attendance?->clock_in)
+
+                                    <span class="text-danger fw-semibold">
+                                        {{ \Carbon\Carbon::parse(
+                                            $attendance->clock_in
+                                        )->format('h:i A') }}
+                                    </span>
+
+                                @else
+
+                                    <span class="text-muted">
+                                        No Clock-in
+                                    </span>
+
+                                @endif
+
+                            </td>
+
+                            <td>
+
+                                @if($attendance?->clock_in)
+
+                                    <span class="badge bg-danger">
+                                        Arrived After 09:30
+                                    </span>
+
+                                @else
+
+                                    <span class="badge bg-danger">
+                                        Did Not Attend
+                                    </span>
+
+                                @endif
+
+                            </td>
+
+                            <td>
+
+                                <a
+                                    href="{{ route(
+                                        'admin.attendance.show',
+                                        $employee->id
+                                    ) }}"
+                                    class="btn btn-sm btn-outline-primary">
+
+                                    View History
+
+                                </a>
+
+                            </td>
+
+                        </tr>
+
+                    @empty
+
+                        <tr>
+
+                            <td colspan="6"
+                                class="text-center py-5">
+
+                                <i class="bx bx-check-circle display-5 text-success"></i>
+
+                                <p class="text-muted mt-3 mb-0">
+                                    No absent employees today.
+                                </p>
+
+                            </td>
+
+                        </tr>
+
+                    @endforelse
+
+                </tbody>
+
+            </table>
+
+        </div>
+
+    </div>
+
+</div>
+
         {{-- Recent Tasks --}}
         <div class="card border-0 shadow-sm radius-10 mb-4">
 

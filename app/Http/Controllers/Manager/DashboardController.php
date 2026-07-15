@@ -8,6 +8,7 @@ use App\Models\User;
 use App\Models\Leave;
 use App\Models\Task;
 use Illuminate\Support\Facades\DB;
+use App\Models\Attendance;
 
 class DashboardController extends Controller
 {
@@ -149,6 +150,41 @@ $topPerformer = Task::select(
     ->sortByDesc('completed');
 
 
+    $today = now('Asia/Dhaka')->toDateString();
+
+$pendingClockIns = Attendance::with('user')
+    ->where('manager_id', $manager->id)
+    ->whereDate('date', $today)
+    ->where('clock_in_approval_status', 'Pending')
+    ->latest('clock_in')
+    ->get();
+
+$pendingClockOuts = Attendance::with('user')
+    ->where('manager_id', $manager->id)
+    ->whereDate('date', $today)
+    ->where('clock_out_approval_status', 'Pending')
+    ->latest('clock_out')
+    ->get();
+
+$pendingClockInCount = $pendingClockIns->count();
+$pendingClockOutCount = $pendingClockOuts->count();
+
+$todayPresent = Attendance::where('manager_id', $manager->id)
+    ->whereDate('date', $today)
+    ->where('status', 'Present')
+    ->count();
+
+$todayLate = Attendance::where('manager_id', $manager->id)
+    ->whereDate('date', $today)
+    ->where('status', 'Late')
+    ->count();
+
+$todayAbsent = Attendance::where('manager_id', $manager->id)
+    ->whereDate('date', $today)
+    ->where('status', 'Absent')
+    ->count();
+
+
 
         return view(
             'manager.dashboard',
@@ -165,7 +201,15 @@ $topPerformer = Task::select(
 
         'topPerformer',
 
-        'employeeRanking'
+        'employeeRanking',
+
+        'pendingClockIns',
+'pendingClockOuts',
+'pendingClockInCount',
+'pendingClockOutCount',
+'todayPresent',
+'todayLate',
+'todayAbsent',
 
             )
         );

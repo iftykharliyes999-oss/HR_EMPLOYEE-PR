@@ -58,6 +58,19 @@
             </a>
         </li>
 
+        <li class="nav-item">
+
+    <a
+        class="nav-link"
+        href="{{ route('manager.loans.index') }}">
+
+        <i class="bx bx-money"></i>
+        Loan Request
+
+    </a>
+
+</li>
+
         <li>
             <a href="{{ route('profile.edit') }}">
                 <div class="parent-icon">

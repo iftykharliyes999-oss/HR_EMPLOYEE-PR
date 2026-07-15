@@ -8,41 +8,76 @@ return new class extends Migration
 {
     public function up(): void
     {
-        Schema::create('attendances', function (Blueprint $table) {
+        Schema::table('attendances', function (Blueprint $table) {
+            $table->foreignId('manager_id')
+                ->nullable()
+                ->after('user_id')
+                ->constrained('users')
+                ->nullOnDelete();
 
-            $table->id();
+            $table->enum('clock_in_approval_status', [
+                'Pending',
+                'Approved',
+                'Rejected',
+            ])->default('Pending')->after('clock_in');
 
-            // Employee
-            $table->foreignId('user_id')
-                  ->constrained()
-                  ->cascadeOnDelete();
+            $table->enum('clock_out_approval_status', [
+                'Not Submitted',
+                'Pending',
+                'Approved',
+                'Rejected',
+            ])->default('Not Submitted')->after('clock_out');
 
-            // Attendance Date
-            $table->date('date');
+            $table->foreignId('clock_in_approved_by')
+                ->nullable()
+                ->constrained('users')
+                ->nullOnDelete();
 
-            // Clock In / Out
-            $table->time('clock_in')->nullable();
-            $table->time('clock_out')->nullable();
+            $table->foreignId('clock_out_approved_by')
+                ->nullable()
+                ->constrained('users')
+                ->nullOnDelete();
 
-            // Attendance Status
+            $table->timestamp('clock_in_approved_at')->nullable();
+            $table->timestamp('clock_out_approved_at')->nullable();
+
+            $table->unsignedInteger('late_minutes')->default(0);
+
             $table->enum('status', [
                 'Present',
                 'Late',
-                'Absent'
-            ])->default('Absent');
-
-            // Total Working Hours
-            $table->string('working_hours')->nullable();
-
-            $table->timestamps();
-
-            // একই দিনে একজন employee যেন একবারই attendance দিতে পারে
-            $table->unique(['user_id', 'date']);
+                'Absent',
+                'Leave',
+                'Holiday',
+            ])->default('Absent')->change();
         });
     }
 
     public function down(): void
     {
-        Schema::dropIfExists('attendances');
+        Schema::table('attendances', function (Blueprint $table) {
+            $table->dropForeign([
+                'manager_id',
+            ]);
+
+            $table->dropForeign([
+                'clock_in_approved_by',
+            ]);
+
+            $table->dropForeign([
+                'clock_out_approved_by',
+            ]);
+
+            $table->dropColumn([
+                'manager_id',
+                'clock_in_approval_status',
+                'clock_out_approval_status',
+                'clock_in_approved_by',
+                'clock_out_approved_by',
+                'clock_in_approved_at',
+                'clock_out_approved_at',
+                'late_minutes',
+            ]);
+        });
     }
 };

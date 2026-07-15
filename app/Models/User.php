@@ -136,6 +136,38 @@ public function createdTasks()
     return $this->hasMany(Task::class, 'created_by');
 }
 
+public function payrolls()
+{
+    return $this->hasMany(
+        Payroll::class,
+        'user_id'
+    );
+}
+
+public function processedPayrolls()
+{
+    return $this->hasMany(
+        Payroll::class,
+        'processed_by'
+    );
+}
+
+public function paidPayrolls()
+{
+    return $this->hasMany(
+        Payroll::class,
+        'paid_by'
+    );
+}
+
+public function loanRequests()
+{
+    return $this->hasMany(
+        LoanRequest::class,
+        'user_id'
+    );
+}
+
 
 
 }

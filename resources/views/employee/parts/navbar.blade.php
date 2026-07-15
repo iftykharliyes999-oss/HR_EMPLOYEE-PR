@@ -119,6 +119,32 @@
 
 </li>
 
+<li class="nav-item">
+
+    <a class="nav-link"
+       href="{{ route('employee.salary.index') }}">
+
+        <i class="bx bx-wallet"></i>
+
+        My Salary
+
+    </a>
+
+</li>
+
+<li class="nav-item">
+
+    <a
+        class="nav-link"
+        href="{{ route('employee.loans.index') }}">
+
+        <i class="bx bx-money"></i>
+        Loan Request
+
+    </a>
+
+</li>
+
 
                 </ul>
 
